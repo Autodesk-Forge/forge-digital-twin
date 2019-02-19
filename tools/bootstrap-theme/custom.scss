@@ -1,0 +1,8 @@
+// Customization of the default Bootstrap theme.
+// To preview the custom changes, import this file to https://bootstrap.build/app.
+
+$body-bg: #333;
+$body-color: #CCC;
+$primary: #FC9;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
