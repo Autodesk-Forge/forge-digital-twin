@@ -29,7 +29,10 @@ function loadModel(urn) {
             }
         }
         function onDocumentLoadFailure() { reject('could not load document'); }
-        function onItemLoadSuccess() { resolve(); }
+        function onItemLoadSuccess() {
+            initProcurementTab();
+            resolve();
+        }
         function onItemLoadFailure() { reject('could not load model'); }
         app.loadDocument('urn:' + urn, onDocumentLoadSuccess, onDocumentLoadFailure);
     });

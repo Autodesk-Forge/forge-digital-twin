@@ -37,7 +37,57 @@
             <div class="tab-content" id="tabs-content">
                 <div class="tab-pane fade show active" id="performance" role="tabpanel" aria-labelledby="performance-tab">Performance</div>
                 <div class="tab-pane fade" id="maintenance" role="tabpanel" aria-labelledby="maintenance-tab">Maintenance</div>
-                <div class="tab-pane fade" id="procurement" role="tabpanel" aria-labelledby="procurement-tab">Procurement</div>
+                <div class="tab-pane fade" id="procurement" role="tabpanel" aria-labelledby="procurement-tab">
+                    <h5>Purchase History</h5>
+                    <table class="table table-hover table-sm" id="purchases">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Part ID</th>
+                                <th scope="col">Supplier</th>
+                                <th scope="col">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td><a href="#" class="part-link">1124</a></td>
+                                <td>Supplier X</td>
+                                <td>$456.78</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td><a href="#" class="part-link">1124</a></td>
+                                <td>Supplier Y</td>
+                                <td>$456.78</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td><a href="#" class="part-link">5</a></td>
+                                <td>Supplier X</td>
+                                <td>$123.45</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td><a href="#" class="part-link">5</a></td>
+                                <td>Supplier Y</td>
+                                <td>$67.89</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">5</th>
+                                <td><a href="#" class="part-link">570</a></td>
+                                <td>Supplier X</td>
+                                <td>$1.23</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">6</th>
+                                <td><a href="#" class="part-link">570</a></td>
+                                <td>Supplier Y</td>
+                                <td>$4.56</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -50,6 +100,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+    <script src="/scripts/procurement.js"></script>
 </body>
 
 </html>
