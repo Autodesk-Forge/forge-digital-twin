@@ -29,12 +29,7 @@ function loadModel(urn) {
             }
         }
         function onDocumentLoadFailure() { reject('could not load document'); }
-        function onItemLoadSuccess() {
-            setTimeout(function() {
-                app.getCurrentViewer().setViewCube('back, top, left');
-            }, 1000);
-            resolve();
-        }
+        function onItemLoadSuccess() { resolve(); }
         function onItemLoadFailure() { reject('could not load model'); }
         app.loadDocument('urn:' + urn, onDocumentLoadSuccess, onDocumentLoadFailure);
     });
