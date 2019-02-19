@@ -1,6 +1,6 @@
 {
   "name": "forge-digital-twin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Autodesk Forge application demonstrating various use cases in manufacturing, specifically in context of digital twins.",
   "scripts": {
     "build:client": "node-sass tools/bootstrap-theme/custom.scss public/stylesheets/bootstrap.css",
@@ -16,7 +16,11 @@
   "license": "MIT",
   "dependencies": {
     "autodesk-forge-tools": "^0.2.0",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "pg": "^7.8.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.42.0",
+    "sqlite3": "^4.0.6"
   },
   "devDependencies": {
     "bootstrap": "^4.3.1",
