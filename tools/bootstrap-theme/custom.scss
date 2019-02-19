@@ -14,12 +14,14 @@ $gray-900: #212529;
 $black:    #000;
 
 $body-bg: $gray-900;
-$body-color: $gray-100;
+$body-color: $gray-500;
 $primary: #EBB30B;
 
 $nav-tabs-border-color: $gray-600;
 $nav-tabs-link-hover-border-color: $gray-600 $gray-600 $nav-tabs-border-color;
 $nav-tabs-link-active-color: $gray-500;
 $nav-tabs-link-active-border-color: $gray-600 $gray-600 $body-bg;
+
+$table-hover-bg: $gray-800;
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
