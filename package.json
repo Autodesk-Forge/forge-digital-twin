@@ -16,10 +16,10 @@
   "license": "MIT",
   "dependencies": {
     "autodesk-forge-tools": "^0.2.0",
-    "bootstrap": "^4.3.1",
     "express": "^4.16.4"
   },
   "devDependencies": {
+    "bootstrap": "^4.3.1",
     "node-sass": "^4.11.0"
   }
 }
