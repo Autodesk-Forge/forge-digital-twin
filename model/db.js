@@ -1,3 +1,3 @@
 const Sequelize = require('sequelize');
 
-module.exports = new Sequelize(process.env.DB_CONNECTION_URI || 'sqlite:data/database.sqlite');
+module.exports = new Sequelize(process.env.DATABASE_URL || 'sqlite:data/database.sqlite');

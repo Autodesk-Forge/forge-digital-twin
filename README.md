@@ -26,4 +26,4 @@ The project uses a custom Bootstrap theme. In order to tweak the theme:
 The application uses [sequelize](http://docs.sequelizejs.com/) with support for
 sqlite and postgres dialects. By default, data is stored locally using sqlite,
 in _data/database.sqlite_. If you want to store data in a postgres database,
-provide `DB_CONNECTION_URI` env. variable in the following form: `postgres://<username>:<password>@<host>:<port>/<dbname>`.
+provide `DATABASE_URL` env. variable in the following form: `postgres://<username>:<password>@<host>:<port>/<dbname>`.
