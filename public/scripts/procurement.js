@@ -3,7 +3,7 @@ function initProcurementTab() {
     const $pagination = $('#procurement .pagination');
     let purchases = {
         list: [],
-        pageSize: 10,
+        pageSize: 5,
         currPage: 0
     };
 
@@ -58,6 +58,36 @@ function initProcurementTab() {
         }
     }
 
+    function updatePurchaseChart(partIds) {
+        const ctx = document.getElementById("purchase-stats").getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                datasets: [{
+                    label: 'Price ($)',
+                    data: [12, 19, 3, 5, 2, 3].map(i => Math.floor(Math.random() * 100)),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    }
+
     $('#purchases').on('click', function(ev) {
         let partId = parseInt(ev.target.innerText);
         if (partId) {
@@ -102,4 +132,5 @@ function initProcurementTab() {
 
     updatePurchases(true);
     updatePurchaseForm();
+    updatePurchaseChart();
 }

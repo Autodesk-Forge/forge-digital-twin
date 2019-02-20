@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/stylesheets/bootstrap.css">
     <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/style.css">
     <link rel="stylesheet" href="/stylesheets/main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
     <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/viewer3D.js"></script>
     <title>Autodesk Forge: Digital Twin Demo</title>
 </head>
@@ -116,6 +117,9 @@
                             </div>
                         </div>
                     </div>
+                    <br />
+                    <h5>Revision Stats</h5>
+                    <canvas id="revision-stats" width="100%"></canvas>
                 </div>
                 <div class="tab-pane fade" id="procurement" role="tabpanel" aria-labelledby="procurement-tab">
                     <h5>Purchase History</h5>
@@ -219,6 +223,9 @@
                             </div>
                         </div>
                     </div>
+                    <br />
+                    <h5>Purchase Stats</h5>
+                    <canvas id="purchase-stats" width="100%"></canvas>
                 </div>
             </div>
         </div>

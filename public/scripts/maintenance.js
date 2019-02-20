@@ -3,7 +3,7 @@ function initMaintenanceTab() {
     const $pagination = $('#maintenance .pagination');
     let maintenance = {
         list: [],
-        pageSize: 10,
+        pageSize: 5,
         currPage: 0
     };
 
@@ -56,6 +56,46 @@ function initMaintenanceTab() {
         }
     }
 
+    function updateRevisionChart(partIds) {
+        const ctx = document.getElementById("revision-stats").getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                datasets: [{
+                    label: 'Status',
+                    data: [12, 19, 3, 5, 2, 3].map(i => Math.floor(Math.random() * 100)),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    }
+
     $('#revisions').on('click', function(ev) {
         let partId = parseInt(ev.target.innerText);
         if (partId) {
@@ -102,4 +142,5 @@ function initMaintenanceTab() {
 
     updateRevisions(true);
     updateRevisionForm();
+    updateRevisionChart();
 }
