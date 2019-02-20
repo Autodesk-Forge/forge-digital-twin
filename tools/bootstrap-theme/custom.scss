@@ -22,6 +22,16 @@ $nav-tabs-link-hover-border-color: $gray-600 $gray-600 $nav-tabs-border-color;
 $nav-tabs-link-active-color: $gray-500;
 $nav-tabs-link-active-border-color: $gray-600 $gray-600 $body-bg;
 
+$pagination-border-color: $gray-600;
+$pagination-bg: $body-bg;
+$pagination-hover-border-color: $pagination-border-color;
+$pagination-hover-bg: $gray-800;
+
+$input-color: $body-color;
+$input-border-color: $gray-600;
+$input-bg: $body-bg;
+
+$table-border-color: $gray-600;
 $table-hover-bg: $gray-800;
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
