@@ -8,7 +8,15 @@ Master branch is deployed to https://forge-digital-twin.herokuapp.com.
 
 ## Development
 
-- contact the repo owner for Forge credentials used in this demo
+### Prerequisites
+
+- Node.js v10+
+- Forge app credentials
+  - contact @brozp for credentials used in the demo
+
+### Setup
+
+- clone this repository
 - install dependencies: `npm install`
 - run server: `FORGE_CLIENT_ID=<client-id> FORGE_CLIENT_SECRET=<client-secret> npm start`
 - go to http://localhost:3000
