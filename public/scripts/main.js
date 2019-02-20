@@ -31,6 +31,7 @@ function loadModel(urn) {
         function onDocumentLoadFailure() { reject('could not load document'); }
         function onItemLoadSuccess() {
             initProcurementTab();
+            NOP_VIEWER.setSelectionColor(new THREE.Color(0xEBB30B));
             resolve();
         }
         function onItemLoadFailure() { reject('could not load model'); }
