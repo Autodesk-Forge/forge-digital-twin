@@ -3414,7 +3414,7 @@ input[type="button"].btn-block {
 
 .page-item.active .page-link {
   z-index: 1;
-  color: #fff;
+  color: #212529;
   background-color: #EBB30B;
   border-color: #EBB30B; }
 
@@ -4056,10 +4056,11 @@ a.close.disabled {
   display: flex;
   flex-direction: column;
   width: 100%;
+  color: #adb5bd;
   pointer-events: auto;
-  background-color: #fff;
+  background-color: #212529;
   background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid #6c757d;
   border-radius: 0.3rem;
   outline: 0; }
 
