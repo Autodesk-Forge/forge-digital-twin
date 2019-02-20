@@ -52,7 +52,7 @@ function initProcurementTab() {
             $('#purchase-price').val(`$${(Math.random() * 100).toFixed(2)}`);
             $('#purchase-form button').attr('disabled', false);
         } else {
-            $('#purchase-part').val('');
+            $('#purchase-part').val('(select part in 3D view)');
             $('#purchase-price').val('');
             $('#purchase-form button').attr('disabled', true);
         }
@@ -92,8 +92,10 @@ function initProcurementTab() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ partId, supplier, price })
         }).then(resp => {
-            alert(`Purchase Response: ${resp.statusText} (${resp.status})`);
+            $('#purchase-modal .modal-body > p').text(`Purchase Response: ${resp.statusText} (${resp.status})`);
+            $('#purchase-modal').modal('show');
             updatePurchases(true, NOP_VIEWER.getIsolatedNodes());
+            setTimeout(function() { $('#purchase-modal').modal('hide'); }, 1000);
         });
         ev.preventDefault();
     });

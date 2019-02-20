@@ -26,6 +26,7 @@ $pagination-border-color: $gray-600;
 $pagination-bg: $body-bg;
 $pagination-hover-border-color: $pagination-border-color;
 $pagination-hover-bg: $gray-800;
+$pagination-active-color: $body-bg;
 
 $input-color: $body-color;
 $input-border-color: $gray-600;
@@ -33,5 +34,9 @@ $input-bg: $body-bg;
 
 $table-border-color: $gray-600;
 $table-hover-bg: $gray-800;
+
+$modal-content-color: $body-color;
+$modal-content-bg: $body-bg;
+$modal-content-border-color: $gray-600;
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
