@@ -31,10 +31,20 @@ function loadModel(urn) {
         function onDocumentLoadFailure() { reject('could not load document'); }
         function onItemLoadSuccess() {
             initProcurementTab();
-            NOP_VIEWER.setSelectionColor(new THREE.Color(0xEBB30B));
+            initViewer();
             resolve();
         }
         function onItemLoadFailure() { reject('could not load model'); }
         app.loadDocument('urn:' + urn, onDocumentLoadSuccess, onDocumentLoadFailure);
     });
+}
+
+function initViewer() {
+    NOP_VIEWER.setQualityLevel(/* ambient shadows */ false, /* antialiasing */ true);
+    NOP_VIEWER.setGroundShadow(false);
+    NOP_VIEWER.setGroundReflection(true);
+    NOP_VIEWER.setGhosting(true);
+    NOP_VIEWER.setEnvMapBackground(true);
+    NOP_VIEWER.setLightPreset(5);
+    NOP_VIEWER.setSelectionColor(new THREE.Color(0xEBB30B));
 }
