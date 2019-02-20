@@ -20,38 +20,35 @@
         </div>
         <div id="viewer"></div>
         <div id="sidebar">
-            <ul class="nav nav-tabs" id="tabs" role="tablist">
+            <ul class="nav nav-pills nav-fill mb-3" id="sidebar-pills" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="performance-tab" data-toggle="tab" href="#performance" role="tab"
-                        aria-controls="performance" aria-selected="true">Performance</a>
+                    <a class="nav-link active" id="performance-tab" data-toggle="pill" href="#performance" role="tab" aria-controls="performance" aria-selected="true">Performance</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="maintenance-tab" data-toggle="tab" href="#maintenance" role="tab"
-                        aria-controls="maintenance" aria-selected="false">Maintenance</a>
+                    <a class="nav-link" id="maintenance-tab" data-toggle="pill" href="#maintenance" role="tab" aria-controls="maintenance" aria-selected="false">Maintenance</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="procurement-tab" data-toggle="tab" href="#procurement" role="tab"
-                        aria-controls="procurement" aria-selected="false">Procurement</a>
+                    <a class="nav-link" id="procurement-tab" data-toggle="pill" href="#procurement" role="tab" aria-controls="procurement" aria-selected="false">Procurement</a>
                 </li>
             </ul>
-            <div class="tab-content" id="tabs-content">
+            <div class="tab-content" id="sidebar-pills-content">
                 <div class="tab-pane fade show active" id="performance" role="tabpanel" aria-labelledby="performance-tab">
                     Performance
                 </div>
                 <div class="tab-pane fade" id="maintenance" role="tabpanel" aria-labelledby="maintenance-tab">
-                    <ul class="nav nav-pills mb-3 nav-fill" id="maintenance-pills" role="tablist">
+                    <ul class="nav nav-tabs mb-3 nav-fill" id="maintenance-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="maintenance-revisions-tab" data-toggle="pill"
+                            <a class="nav-link active" id="maintenance-revisions-tab" data-toggle="tab"
                                 href="#maintenance-revisions" role="tab" aria-controls="maintenance-revisions"
                                 aria-selected="false">Revisions</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="maintenance-statistics-tab" data-toggle="pill"
+                            <a class="nav-link" id="maintenance-statistics-tab" data-toggle="tab"
                                 href="#maintenance-statistics" role="tab" aria-controls="maintenance-statistics"
                                 aria-selected="true">Statistics</a>
                         </li>
                     </ul>
-                    <div class="tab-content" id="maintenance-pills-content">
+                    <div class="tab-content" id="maintenance-tabs-content">
                         <div class="tab-pane fade show active" id="maintenance-revisions" role="tabpanel"
                             aria-labelledby="maintenance-revisions-tab">
                             <h5>Revision History</h5>
@@ -144,18 +141,18 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="procurement" role="tabpanel" aria-labelledby="procurement-tab">
-                    <ul class="nav nav-pills mb-3 nav-fill" id="procurement-pills" role="tablist">
+                    <ul class="nav nav-tabs mb-3 nav-fill" id="procurement-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="procurement-purchases-tab" data-toggle="pill"
+                            <a class="nav-link active" id="procurement-purchases-tab" data-toggle="tab"
                                 href="#procurement-purchases" role="tab" aria-controls="procurement-purchases"
                                 aria-selected="false">Purchases</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="procurement-stats-tab" data-toggle="pill" href="#procurement-stats"
+                            <a class="nav-link" id="procurement-stats-tab" data-toggle="tab" href="#procurement-stats"
                                 role="tab" aria-controls="procurement-stats" aria-selected="true">Statistics</a>
                         </li>
                     </ul>
-                    <div class="tab-content" id="procurement-pills-content">
+                    <div class="tab-content" id="procurement-tabs-content">
                         <div class="tab-pane fade show active" id="procurement-purchases" role="tabpanel"
                             aria-labelledby="procurement-purchases-tab">
                             <h5>Purchase History</h5>
