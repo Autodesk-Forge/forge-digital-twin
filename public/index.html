@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/stylesheets/bootstrap.css">
     <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/style.css">
     <link rel="stylesheet" href="/stylesheets/main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
     <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/viewer3D.js"></script>
     <title>Autodesk Forge: Digital Twin Demo</title>
 </head>
@@ -36,8 +37,8 @@
             <div class="tab-content" id="tabs-content">
                 <div class="tab-pane fade show active" id="performance" role="tabpanel" aria-labelledby="performance-tab">Performance</div>
                 <div class="tab-pane fade" id="maintenance" role="tabpanel" aria-labelledby="maintenance-tab">
-                    <h5>Maintenance History</h5>
-                    <table class="table table-hover table-sm" id="maintenance-history">
+                    <h5>Revision History</h5>
+                    <table class="table table-hover table-sm" id="revisions">
                         <thead>
                             <tr>
                                 <th scope="col">Date</th>
@@ -78,36 +79,36 @@
                             </li>
                         </ul>
                     </nav>
-                    <h5>New Maintenance Record</h5>
-                    <form id="maintenance-form">
+                    <h5>New Revision</h5>
+                    <form id="revision-form">
                         <div class="row">
-                            <label for="maintenance-part" class="col-sm-2 col-form-label">Part #</label>
+                            <label for="revision-part" class="col-sm-2 col-form-label">Part #</label>
                             <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="maintenance-part" value="123">
+                                <input type="text" readonly class="form-control-plaintext" id="revision-part" value="123">
                             </div>
                         </div>
                         <div class="row">
-                            <label for="maintenance-status" class="col-sm-2 col-form-label">Status</label>
+                            <label for="revision-status" class="col-sm-2 col-form-label">Status</label>
                             <div class="col-sm-10">
-                                <select class="form-control form-control-sm" id="maintenance-status">
+                                <select class="form-control form-control-sm" id="revision-status">
                                     <option>Good</option>
                                     <option>Bad</option>
                                 </select>
                             </div>
                         </div>
                         <div class="row">
-                            <label for="maintenance-author" class="col-sm-2 col-form-label">Author</label>
+                            <label for="revision-author" class="col-sm-2 col-form-label">Author</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="maintenance-author" value="John Doe">
+                                <input type="text" class="form-control" id="revision-author" value="John Doe">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="maintenance-description">Description</label>
-                            <textarea class="form-control" id="maintenance-description"></textarea>
+                            <label for="revision-description">Description</label>
+                            <textarea class="form-control" id="revision-description"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary btn-block">Submit</button>
                     </form>
-                    <div id="maintenance-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div id="revision-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-body">
@@ -116,6 +117,9 @@
                             </div>
                         </div>
                     </div>
+                    <br />
+                    <h5>Revision Stats</h5>
+                    <canvas id="revision-stats" width="100%"></canvas>
                 </div>
                 <div class="tab-pane fade" id="procurement" role="tabpanel" aria-labelledby="procurement-tab">
                     <h5>Purchase History</h5>
@@ -219,6 +223,9 @@
                             </div>
                         </div>
                     </div>
+                    <br />
+                    <h5>Purchase Stats</h5>
+                    <canvas id="purchase-stats" width="100%"></canvas>
                 </div>
             </div>
         </div>
