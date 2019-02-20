@@ -2,6 +2,8 @@
 
 Autodesk Forge application demonstrating various use cases in manufacturing, specifically in context of digital twins.
 
+![Screenshot](docs/screenshots/2019-02-20.png)
+
 ## Live demo
 
 Master branch is deployed to https://forge-digital-twin.herokuapp.com.
