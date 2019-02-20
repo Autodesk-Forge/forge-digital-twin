@@ -9,6 +9,10 @@ html, body {
     font-family: Artifakt;
 }
 
+body {
+    margin: 0 1em 0 1em;
+}
+
 #container {
     height: 100vh;
     display: grid;
@@ -38,15 +42,14 @@ html, body {
 }
 
 #viewer {
-    /* grid-row: 2 / 3;
-    grid-column: 1 / 2; */
     position: relative;
-    margin: 0 1em 1em 1em;
+    margin: 0 1em 1em 0;
     box-shadow: 0 0 1em black;
 }
 
 #sidebar {
-    /* grid-row: 2 / 3;
-    grid-column: 2 / 3; */
-    /* border-left: 1px solid lightgray; */
+}
+
+#tabs {
+    margin-bottom: 1em;
 }

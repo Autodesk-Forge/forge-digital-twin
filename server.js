@@ -7,13 +7,18 @@ if (!FORGE_CLIENT_ID || !FORGE_CLIENT_SECRET) {
     return;
 }
 
-let app = express();
+const db = require('./model/db');
+const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/procurement', require('./routes/procurement'));
+app.use('/api/maintenance', require('./routes/maintenance'));
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => { console.log(`Server listening on port ${port}`); });
+db.sync().then(() => {
+    app.listen(port, () => { console.log(`Server listening on port ${port}`); });
+});
