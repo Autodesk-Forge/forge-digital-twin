@@ -1,11 +1,21 @@
 const express = require('express');
+const Op = require('sequelize').Op;
 const { Purchase } = require('../model/procurement');
 
 let router = express.Router();
 
 router.get('/purchases', function(req, res) {
-    Purchase.findAll(req.query.part ? { where: { partId: req.query.part } } : undefined)
-        .then(purchases => res.json(purchases));
+    let query = undefined;
+    if (req.query.parts) {
+        query = {
+            where: {
+                partId: {
+                    [Op.or]: req.query.parts.split(',').map(val => parseInt(val))
+                }
+            }
+        };
+    }
+    Purchase.findAll(query).then(purchases => res.json(purchases));
 });
 
 router.get('/purchases/:id', function(req, res) {

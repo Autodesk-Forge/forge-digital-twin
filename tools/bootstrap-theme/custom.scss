@@ -1,8 +1,37 @@
 // Customization of the default Bootstrap theme.
 // To preview the custom changes, import this file to https://bootstrap.build/app.
 
-$body-bg: #333;
-$body-color: #CCC;
-$primary: #FC9;
+$white:    #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black:    #000;
+
+$body-bg: $gray-900;
+$body-color: $gray-500;
+$primary: #EBB30B;
+
+$nav-tabs-border-color: $gray-600;
+$nav-tabs-link-hover-border-color: $gray-600 $gray-600 $nav-tabs-border-color;
+$nav-tabs-link-active-color: $gray-500;
+$nav-tabs-link-active-border-color: $gray-600 $gray-600 $body-bg;
+
+$pagination-border-color: $gray-600;
+$pagination-bg: $body-bg;
+$pagination-hover-border-color: $pagination-border-color;
+$pagination-hover-bg: $gray-800;
+
+$input-color: $body-color;
+$input-border-color: $gray-600;
+$input-bg: $body-bg;
+
+$table-border-color: $gray-600;
+$table-hover-bg: $gray-800;
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
