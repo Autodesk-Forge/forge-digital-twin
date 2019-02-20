@@ -1,6 +1,7 @@
 .vscode/
 node_modules/
 data/
+database.sqlite
 *.log
 .DS_Store
 Thumbs.db
