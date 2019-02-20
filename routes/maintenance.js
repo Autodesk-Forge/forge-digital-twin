@@ -4,7 +4,7 @@ const { Part, Review } = require('../model/maintenance');
 
 let router = express.Router();
 
-router.get('/history', function(req, res) {
+router.get('/revisions', function(req, res) {
     let query = undefined;
     if (req.query.parts) {
         query = {
@@ -18,7 +18,7 @@ router.get('/history', function(req, res) {
     Review.findAll(query).then(reviews => res.json(reviews));
 });
 
-router.post('/history', async function(req, res) {
+router.post('/revisions', async function(req, res) {
     const { partId, author, passed, description } = req.body;
     await Part.findOrCreate({
         where: { id: partId },
