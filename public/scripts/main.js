@@ -30,6 +30,7 @@ function loadModel(urn) {
         }
         function onDocumentLoadFailure() { reject('could not load document'); }
         function onItemLoadSuccess() {
+            initPerformanceTab();
             initMaintenanceTab();
             initProcurementTab();
             initViewer();
