@@ -1,0 +1,9 @@
+label.markup {
+    position: absolute;
+    z-index: 1;
+    padding: 0.5em;
+    background: #212529;
+    color: #adb5bd;
+    border: 1px solid #adb5bd;
+    border-radius: 5px;
+}
