@@ -1,0 +1,24 @@
+label.markup {
+    position: absolute;
+    padding: 0.5em;
+    color: #adb5bd;
+    background: #212529;
+    opacity: 0.9;
+    border: 1px solid #adb5bd;
+    border-radius: 0 15px 15px 15px;
+    z-index: 1;
+}
+
+label.markup:hover {
+    z-index: 2;
+}
+
+label.markup img.arrow {
+    position: absolute;
+    left: -10px;
+    top: -10px;
+}
+
+label.markup img.thumbnail {
+    border-radius: 10px;
+}

@@ -47,12 +47,22 @@ function initMaintenanceTab() {
     }
 
     function updateRevisionForm(partIds) {
-        if (partIds && partIds.length === 1) {
+        if (!partIds || partIds.length !== 1) {
+            $('#revision-part').val('(select one part in 3D view)');
+            $('#revision-form button').attr('disabled', true);
+        } else {
             $('#revision-part').val(partIds[0]);
             $('#revision-form button').attr('disabled', false);
+        }
+    }
+
+    function updateIssueForm(partIds) {
+        if (!partIds || partIds.length !== 1) {
+            $('#issue-part').val('(select one part in 3D view)');
+            $('#issue-form button').attr('disabled', true);
         } else {
-            $('#revision-part').val('(select part in 3D view)');
-            $('#revision-form button').attr('disabled', true);
+            $('#issue-part').val(partIds[0]);
+            $('#issue-form button').attr('disabled', false);
         }
     }
 
@@ -121,6 +131,7 @@ function initMaintenanceTab() {
     });
     NOP_VIEWER.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, function(ev) {
         updateRevisionForm(NOP_VIEWER.getSelection());
+        updateIssueForm(NOP_VIEWER.getSelection());
     });
     $('#revision-form button').on('click', function(ev) {
         const partId = parseInt($('#revision-part').val());
@@ -140,7 +151,40 @@ function initMaintenanceTab() {
         ev.preventDefault();
     });
 
+    // After a mouse click on 3D viewport, populate X/Y/Z of the intersection
+    $('#viewer').on('click', function(ev) {
+        let intersections = [];
+        NOP_VIEWER.impl.castRayViewport(NOP_VIEWER.impl.clientToViewport(ev.clientX, ev.clientY), false, null, null, intersections);
+        if (intersections.length > 0) {
+            const intersection = intersections[0];
+            $('#issue-part').val(intersection.dbId);
+            $('#issue-position-x').val(intersection.point.x.toFixed(2));
+            $('#issue-position-y').val(intersection.point.y.toFixed(2));
+            $('#issue-position-z').val(intersection.point.z.toFixed(2));
+        }
+    });
+
+    $('#issue-form button').on('click', function(ev) {
+        const partId = parseInt($('#issue-part').val());
+        const text = $('#issue-title').val();
+        const author = $('#issue-author').val();
+        const x = parseFloat($('#issue-position-x').val());
+        const y = parseFloat($('#issue-position-y').val());
+        const z = parseFloat($('#issue-position-z').val());
+        fetch('/api/maintenance/issues', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ partId, text, author, x, y, z })
+        }).then(resp => {
+            $('#issue-modal .modal-body > p').text(`Issue Response: ${resp.statusText} (${resp.status})`);
+            $('#issue-modal').modal('show');
+            setTimeout(function() { $('#issue-modal').modal('hide'); }, 1000);
+        });
+        ev.preventDefault();
+    });
+
     updateRevisions(true);
     updateRevisionForm();
     updateRevisionChart();
+    updateIssueForm();
 }
