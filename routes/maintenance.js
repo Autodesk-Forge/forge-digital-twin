@@ -1,6 +1,6 @@
 const express = require('express');
 const Op = require('sequelize').Op;
-const { Part, Review } = require('../model/maintenance');
+const { Part, Review, Issue } = require('../model/maintenance');
 
 let router = express.Router();
 
@@ -30,6 +30,26 @@ router.post('/revisions', async function(req, res) {
     });
     const review = await Review.create({ partId, author, passed, description });
     res.json(review);
+});
+
+router.get('/issues', function(req, res) {
+    let query = undefined;
+    if (req.query.parts) {
+        query = {
+            where: {
+                partId: {
+                    [Op.or]: req.query.parts.split(',').map(val => parseInt(val))
+                }
+            }
+        };
+    }
+    Issue.findAll(query).then(issues => res.json(issues));
+});
+
+router.post('/issues', async function(req, res) {
+    const { partId, author, text, img, x, y, z } = req.body;
+    const issue = await Issue.create({ partId, author, text, img, x, y, z });
+    res.json(issue);
 });
 
 router.get('/parts/:id', function(req, res) {

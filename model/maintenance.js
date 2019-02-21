@@ -16,10 +16,22 @@ const Review = db.define('review',
         description: Sequelize.TEXT
     }
 );
-
 Review.belongsTo(Part);
+
+const Issue = db.define('issue',
+    {
+        author: Sequelize.STRING,
+        text: Sequelize.TEXT,
+        img: Sequelize.STRING,
+        x: Sequelize.FLOAT,
+        y: Sequelize.FLOAT,
+        z: Sequelize.FLOAT
+    }
+);
+Issue.belongsTo(Part);
 
 module.exports = {
     Part,
-    Review
+    Review,
+    Issue
 };

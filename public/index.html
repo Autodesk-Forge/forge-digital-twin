@@ -41,12 +41,17 @@
                         <li class="nav-item">
                             <a class="nav-link active" id="maintenance-revisions-tab" data-toggle="tab"
                                 href="#maintenance-revisions" role="tab" aria-controls="maintenance-revisions"
-                                aria-selected="false">Revisions</a>
+                                aria-selected="true">Revisions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="maintenance-issues-tab" data-toggle="tab"
+                                href="#maintenance-issues" role="tab" aria-controls="maintenance-issues"
+                                aria-selected="false">Issues</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="maintenance-statistics-tab" data-toggle="tab"
                                 href="#maintenance-statistics" role="tab" aria-controls="maintenance-statistics"
-                                aria-selected="true">Statistics</a>
+                                aria-selected="false">Statistics</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="maintenance-tabs-content">
@@ -125,6 +130,53 @@
                                 <button type="submit" class="btn btn-primary btn-block">Submit</button>
                             </form>
                             <div id="revision-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <p>...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="maintenance-issues" role="tabpanel" aria-labelledby="maintenance-issues-tab">
+                            <h5>New Issue</h5>
+                            <form id="issue-form">
+                                <div class="row mb-2">
+                                    <label for="issue-part" class="col-sm-2 col-form-label">Part #</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" readonly class="form-control-plaintext" id="issue-part" value="123">
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label for="issue-title" class="col-sm-2 col-form-label">Title</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="issue-title" value="Issue Title">
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label for="issue-author" class="col-sm-2 col-form-label">Author</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="issue-author" value="John Doe">
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label for="issue-position-x" class="col-sm-1 col-form-label">X</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="issue-position-x" value="0.0">
+                                    </div>
+                                    <label for="issue-position-y" class="col-sm-1 col-form-label">Y</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="issue-position-y" value="0.0">
+                                    </div>
+                                    <label for="issue-position-z" class="col-sm-1 col-form-label">Z</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="issue-position-z" value="0.0">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                            </form>
+                            <div id="issue-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-body">
