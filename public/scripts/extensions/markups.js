@@ -6,7 +6,8 @@ for (let i = 0; i < 10; i++) {
         x: (Math.random() - 0.5) * 100.0,
         y: (Math.random() - 0.5) * 100.0,
         z: (Math.random() - 0.5) * 1000.0,
-        note: MOCK_MARKUP_NOTES[Math.floor(Math.random() * MOCK_MARKUP_NOTES.length)]
+        text: MOCK_MARKUP_NOTES[Math.floor(Math.random() * MOCK_MARKUP_NOTES.length)],
+        img: Math.random() > 0.5 ? 'https://placeimg.com/150/100/tech?' + i : null
     });
 }
 
@@ -62,12 +63,13 @@ class MarkupExtension extends Autodesk.Viewing.Extension {
             const pos = this.viewer.worldToClient(new THREE.Vector3(item.x, item.y, item.z));
             const $label = $(`
                 <label class="markup" data-id="${item.id}">
-                    <img src="/favicon.ico" width="15" height="15" />
-                    <a href="#">${item.id}</a>: ${item.note}
+                    <img class="arrow" src="/images/arrow.png" />
+                    <a href="#">${item.id}</a>: ${item.text}
+                    ${item.img ? `<br><img class="thumbnail" src="${item.img}" />` : ''}
                 </label>
             `);
-            $label.css('left', Math.floor(pos.x) + 'px');
-            $label.css('top', Math.floor(pos.y) + 'px');
+            $label.css('left', Math.floor(pos.x) + 10 /* arrow image width */ + 'px');
+            $label.css('top', Math.floor(pos.y) + 10 /* arrow image height */ + 'px');
             $viewer.append($label);
         }
     }
@@ -78,8 +80,8 @@ class MarkupExtension extends Autodesk.Viewing.Extension {
             const id = $label.data('id');
             const item = MARKUP_DATA[parseInt(id)];
             const pos = this.viewer.worldToClient(new THREE.Vector3(item.x, item.y, item.z));
-            $label.css('left', Math.floor(pos.x) + 'px');
-            $label.css('top', Math.floor(pos.y) + 'px');
+            $label.css('left', Math.floor(pos.x) + 10 /* arrow image width */ + 'px');
+            $label.css('top', Math.floor(pos.y) + 10 /* arrow image height */ + 'px');
         }
     }
 
