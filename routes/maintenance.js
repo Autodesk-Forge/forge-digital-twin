@@ -48,6 +48,14 @@ router.get('/issues', function(req, res) {
 
 router.post('/issues', async function(req, res) {
     const { partId, author, text, img, x, y, z } = req.body;
+    await Part.findOrCreate({
+        where: { id: partId },
+        defaults: {
+            id: partId,
+            status: 'ok',
+            nextReview: null
+        }
+    });
     const issue = await Issue.create({ partId, author, text, img, x, y, z });
     res.json(issue);
 });

@@ -1,19 +1,7 @@
-const MOCK_MARKUP_NOTES = ['foo', 'bar', 'baz'];
-const MARKUP_DATA = [];
-for (let i = 0; i < 10; i++) {
-    MARKUP_DATA.push({
-        id: i,
-        x: (Math.random() - 0.5) * 100.0,
-        y: (Math.random() - 0.5) * 100.0,
-        z: (Math.random() - 0.5) * 1000.0,
-        text: MOCK_MARKUP_NOTES[Math.floor(Math.random() * MOCK_MARKUP_NOTES.length)],
-        img: Math.random() > 0.5 ? 'https://placeimg.com/150/100/tech?' + i : null
-    });
-}
-
 class MarkupExtension extends Autodesk.Viewing.Extension {
     load() {
         this._enabled = false;
+        this._issues = [];
 
         if (this.viewer.toolbar) {
             this._createUI();
@@ -57,15 +45,21 @@ class MarkupExtension extends Autodesk.Viewing.Extension {
         viewer.toolbar.addControl(this.toolbar);
     }
 
-    _createMarkups() {
+    async _createMarkups() {
         const $viewer = $('#viewer');
-        for (const item of MARKUP_DATA) {
-            const pos = this.viewer.worldToClient(new THREE.Vector3(item.x, item.y, item.z));
+        const response = await fetch('/api/maintenance/issues');
+        this._issues = await response.json();
+        for (const issue of this._issues) {
+            // Randomly assign placeholder image to some issues
+            if (Math.random() > 0.5) {
+                issue.img = 'https://placeimg.com/150/100/tech?' + issue.id
+            }
+            const pos = this.viewer.worldToClient(new THREE.Vector3(issue.x, issue.y, issue.z));
             const $label = $(`
-                <label class="markup" data-id="${item.id}">
+                <label class="markup" data-id="${issue.id}">
                     <img class="arrow" src="/images/arrow.png" />
-                    <a href="#">${item.id}</a>: ${item.text}
-                    ${item.img ? `<br><img class="thumbnail" src="${item.img}" />` : ''}
+                    <a href="#">${issue.author}</a>: ${issue.text}
+                    ${issue.img ? `<br><img class="thumbnail" src="${issue.img}" />` : ''}
                 </label>
             `);
             $label.css('left', Math.floor(pos.x) + 10 /* arrow image width */ + 'px');
@@ -78,7 +72,7 @@ class MarkupExtension extends Autodesk.Viewing.Extension {
         for (const label of $('#viewer label.markup')) {
             const $label = $(label);
             const id = $label.data('id');
-            const item = MARKUP_DATA[parseInt(id)];
+            const item = this._issues.find(issue => issue.id === parseInt(id));
             const pos = this.viewer.worldToClient(new THREE.Vector3(item.x, item.y, item.z));
             $label.css('left', Math.floor(pos.x) + 10 /* arrow image width */ + 'px');
             $label.css('top', Math.floor(pos.y) + 10 /* arrow image height */ + 'px');
