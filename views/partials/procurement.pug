@@ -1,0 +1,10 @@
+ul#procurement-tabs.nav.nav-tabs.mb-3.nav-fill(role='tablist')
+  li.nav-item
+    a#procurement-purchases-tab.nav-link.active(data-toggle='tab' href='#procurement-purchases' role='tab' aria-controls='procurement-purchases' aria-selected='false') Purchases
+  li.nav-item
+    a#procurement-stats-tab.nav-link(data-toggle='tab' href='#procurement-stats' role='tab' aria-controls='procurement-stats' aria-selected='true') Statistics
+#procurement-tabs-content.tab-content
+  #procurement-purchases.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='procurement-purchases-tab')
+    include ./procurement-purchases.pug
+  #procurement-stats.tab-pane.fade(role='tabpanel' aria-labelledby='procurement-stats-tab')
+    include ./procurement-stats.pug

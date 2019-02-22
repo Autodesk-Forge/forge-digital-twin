@@ -34,11 +34,14 @@ class MarkupExtension extends Autodesk.Viewing.Extension {
             this._enabled = !this._enabled;
             if (this._enabled) {
                 this._createMarkups();
+                this.button.setState(0);
             } else {
                 this._removeMarkups();
+                this.button.setState(1);
             }
         };
-        this.button.addClass('adsk-icon-box');
+        const icon = this.button.container.children[0];
+        icon.classList.add('fas', 'fa-flag');
         this.button.setToolTip('Markups');
         this.toolbar = viewer.toolbar.getControl('CustomToolbar') || new Autodesk.Viewing.UI.ControlGroup('CustomToolbar');
         this.toolbar.addControl(this.button);

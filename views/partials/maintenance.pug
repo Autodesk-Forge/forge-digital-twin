@@ -1,0 +1,14 @@
+ul#maintenance-tabs.nav.nav-tabs.mb-3.nav-fill(role='tablist')
+  li.nav-item
+    a#maintenance-revisions-tab.nav-link.active(data-toggle='tab' href='#maintenance-revisions' role='tab' aria-controls='maintenance-revisions' aria-selected='true') Revisions
+  li.nav-item
+    a#maintenance-issues-tab.nav-link(data-toggle='tab' href='#maintenance-issues' role='tab' aria-controls='maintenance-issues' aria-selected='false') Issues
+  li.nav-item
+    a#maintenance-statistics-tab.nav-link(data-toggle='tab' href='#maintenance-statistics' role='tab' aria-controls='maintenance-statistics' aria-selected='false') Statistics
+#maintenance-tabs-content.tab-content
+  #maintenance-revisions.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='maintenance-revisions-tab')
+    include ./maintenance-revisions.pug
+  #maintenance-issues.tab-pane.fade(role='tabpanel' aria-labelledby='maintenance-issues-tab')
+    include ./maintenance-issues.pug
+  #maintenance-statistics.tab-pane.fade(role='tabpanel' aria-labelledby='maintenance-statistics-tab')
+    include ./maintenance-stats.pug

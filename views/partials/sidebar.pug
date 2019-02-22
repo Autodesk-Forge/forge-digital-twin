@@ -1,0 +1,14 @@
+ul#sidebar-pills.nav.nav-pills.nav-fill.mb-3(role='tablist')
+  li.nav-item
+    a#performance-tab.nav-link.active(data-toggle='pill' href='#performance' role='tab' aria-controls='performance' aria-selected='true') Performance
+  li.nav-item
+    a#maintenance-tab.nav-link(data-toggle='pill' href='#maintenance' role='tab' aria-controls='maintenance' aria-selected='false') Maintenance
+  li.nav-item
+    a#procurement-tab.nav-link(data-toggle='pill' href='#procurement' role='tab' aria-controls='procurement' aria-selected='false') Procurement
+#sidebar-pills-content.tab-content
+  #performance.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='performance-tab')
+    include ./performance.pug
+  #maintenance.tab-pane.fade(role='tabpanel' aria-labelledby='maintenance-tab')
+    include ./maintenance.pug
+  #procurement.tab-pane.fade(role='tabpanel' aria-labelledby='procurement-tab')
+    include ./procurement.pug
