@@ -20,7 +20,7 @@ function initPerformanceTab() {
                     data: []
                 }]
             },
-            options: { scales: { xAxes: [{ type: 'realtime' }] } }
+            options: { scales: { xAxes: [{ type: 'realtime', realtime: { delay: 2000 } }] } }
         });
         return chart;
     }
@@ -47,7 +47,7 @@ function initPerformanceTab() {
                     data: []
                 }]
             },
-            options: { scales: { xAxes: [{ type: 'realtime' }] } }
+            options: { scales: { xAxes: [{ type: 'realtime', realtime: { delay: 2000 } }] } }
         });
         return chart;
     }
@@ -57,7 +57,7 @@ function initPerformanceTab() {
         const chart = new Chart(ctx, {
             type: 'line',
             data: { datasets: [] },
-            options: { scales: { xAxes: [{ type: 'realtime' }] } }
+            options: { scales: { xAxes: [{ type: 'realtime', realtime: { delay: 2000 } }] } }
         });
         return chart;
     }
