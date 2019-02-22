@@ -8,6 +8,40 @@ function initPerformanceTab() {
         });
     }
 
+    const temperatures = new Float32Array(1500);
+
+    const ALERTS_STORAGE_KEY = 'alert-config';
+    const alerts = JSON.parse(localStorage.getItem(ALERTS_STORAGE_KEY) || '{}');
+    /*
+    alerts = {
+        <partId>: {
+            temperature: {
+                max: <number>
+            }
+        }
+    };
+    */
+
+    function updateTemperatures() {
+        // Generate new temperatures for each partId from 1 to 1500
+        for (let i = 0, len = temperatures.length; i < len; i++) {
+            temperatures[i] = Math.random() * 100.0;
+        }
+        // Trigger alerts if any part temperature exceed preconfigured limit
+        Object.keys(alerts).forEach(function(partId) {
+            const alert = alerts[partId];
+            const temp = temperatures[partId];
+            if (alert && alert.temperature && temp > alert.temperature.max) {
+                // console.log(`Part ${partId} temperature ${temp} exceeded limit ${alert.temperature.max}!`);
+                NOP_VIEWER.setThemingColor(partId, new THREE.Vector4(1.0, 0.0, 0.0, 0.99));
+                setTimeout(function() {
+                    // TODO: revert to original theming color if there was one
+                    NOP_VIEWER.setThemingColor(partId, new THREE.Vector4(1.0, 0.0, 0.0, 0.0));
+                }, 500);
+            }
+        });
+    }
+
     function createEngineSpeedChart() {
         const ctx = document.getElementById('engine-speed-chart').getContext('2d');
         const chart = new Chart(ctx, {
@@ -20,7 +54,7 @@ function initPerformanceTab() {
                     data: []
                 }]
             },
-            options: { scales: { xAxes: [{ type: 'realtime' }] } }
+            options: { scales: { xAxes: [{ type: 'realtime', realtime: { delay: 2000 } }] } }
         });
         return chart;
     }
@@ -47,7 +81,7 @@ function initPerformanceTab() {
                     data: []
                 }]
             },
-            options: { scales: { xAxes: [{ type: 'realtime' }] } }
+            options: { scales: { xAxes: [{ type: 'realtime', realtime: { delay: 2000 } }] } }
         });
         return chart;
     }
@@ -57,7 +91,7 @@ function initPerformanceTab() {
         const chart = new Chart(ctx, {
             type: 'line',
             data: { datasets: [] },
-            options: { scales: { xAxes: [{ type: 'realtime' }] } }
+            options: { scales: { xAxes: [{ type: 'realtime', realtime: { delay: 2000 } }] } }
         });
         return chart;
     }
@@ -79,12 +113,31 @@ function initPerformanceTab() {
     }
 
     function refreshPartTemperatures(chart) {
-        chart.data.datasets.forEach(function (dataset) {
-            dataset.data.push({
-                x: Date.now(),
-                y: Math.random() * 100.0
+        const partId = $('#temperature-alert-part').val();
+        if (partId) {
+            chart.data.datasets.forEach(function(dataset) {
+                dataset.data.push({
+                    x: Date.now(),
+                    y: temperatures[parseInt(partId)]
+                });
             });
-        });
+        }
+    }
+
+    function updateTemperatureAlertForm(partIds) {
+        $form = $('#temperature-alert-form');
+        if (!partIds || partIds.length !== 1) {
+            $form.fadeOut();
+        } else {
+            $('#temperature-alert-part').val(partIds[0]);
+            const config = alerts[partIds[0]];
+            if (config && config.temperature && config.temperature.max) {
+                $('#temperature-alert-max').val(config.temperature.max);
+            } else {
+                $('#temperature-alert-max').val('');
+            }
+            $form.fadeIn();
+        }
     }
 
     const engineSpeedChart = createEngineSpeedChart();
@@ -93,6 +146,8 @@ function initPerformanceTab() {
 
     NOP_VIEWER.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, function(ev) {
         const ids = NOP_VIEWER.getSelection();
+        updateTemperatureAlertForm(ids);
+
         partTemperaturesChart.data.datasets = [];
         let counter = 0;
         for (const id of ids) {
@@ -108,9 +163,29 @@ function initPerformanceTab() {
         partTemperaturesChart.update();
     });
 
+    $('#temperature-alert-form button.btn-primary').on('click', function(ev) {
+        const partId = parseInt($('#temperature-alert-part').val());
+        const tempMax = parseFloat($('#temperature-alert-max').val());
+        alerts[partId] = alerts[partId] || {};
+        alerts[partId].temperature = alerts[partId].temperature || {};
+        alerts[partId].temperature.max = tempMax;
+        window.localStorage.setItem(ALERTS_STORAGE_KEY, JSON.stringify(alerts));
+        updateTemperatureAlertForm([partId]);
+        ev.preventDefault();
+    });
+    $('#temperature-alert-form button.btn-secondary').on('click', function(ev) {
+        const partId = $('#temperature-alert-part').val();
+        delete alerts[partId];
+        window.localStorage.setItem(ALERTS_STORAGE_KEY, JSON.stringify(alerts));
+        updateTemperatureAlertForm([partId]);
+        ev.preventDefault();
+    });
+
     setInterval(function() {
+        updateTemperatures();
         refreshEngineSpeed(engineSpeedChart);
         refreshEngineVibrations(engineVibrationsChart);
         refreshPartTemperatures(partTemperaturesChart);
     }, 1000);
+    updateTemperatureAlertForm();
 }
