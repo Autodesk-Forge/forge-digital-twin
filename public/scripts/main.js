@@ -43,8 +43,8 @@ function loadModel(urn) {
 
 function initViewer() {
     NOP_VIEWER.setQualityLevel(/* ambient shadows */ false, /* antialiasing */ true);
-    NOP_VIEWER.setGroundShadow(false);
-    NOP_VIEWER.setGroundReflection(true);
+    NOP_VIEWER.setGroundShadow(true);
+    NOP_VIEWER.setGroundReflection(false);
     NOP_VIEWER.setGhosting(true);
     NOP_VIEWER.setEnvMapBackground(true);
     NOP_VIEWER.setLightPreset(5);
