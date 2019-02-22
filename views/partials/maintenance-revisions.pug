@@ -1,0 +1,48 @@
+h5 Revision History
+table#revisions.table.table-hover.table-sm
+  thead
+    tr
+      th(scope='col') Date
+      th(scope='col') Part #
+      th(scope='col') Reviewed By
+      th(scope='col') Result
+  tbody
+nav
+  ul.pagination.justify-content-center
+    li.page-item
+      a.page-link(href='#' aria-label='Previous')
+        span(aria-hidden='true') &laquo;
+    li.page-item.active
+      a.page-link(href='#') 1
+    li.page-item
+      a.page-link(href='#') 2
+    li.page-item
+      a.page-link(href='#') 3
+    li.page-item
+      a.page-link(href='#' aria-label='Next')
+        span(aria-hidden='true') &raquo;
+h5 New Revision
+form#revision-form
+  .row
+    label.col-sm-2.col-form-label(for='revision-part') Part #
+    .col-sm-10
+      input#revision-part.form-control-plaintext(type='text' readonly='' value='123')
+  .row
+    label.col-sm-2.col-form-label(for='revision-status') Status
+    .col-sm-10
+      select#revision-status.form-control.form-control-sm
+        option Good
+        option Bad
+  .row
+    label.col-sm-2.col-form-label(for='revision-author') Author
+    .col-sm-10
+      input#revision-author.form-control(type='text' value='John Doe')
+  .form-group
+    label(for='revision-description') Description
+    textarea#revision-description.form-control
+  button.btn.btn-primary.btn-block(type='submit') Submit
+#revision-modal.modal.fade(tabindex='-1' role='dialog' aria-hidden='true')
+  .modal-dialog
+    .modal-content
+      .modal-body
+        p ...
