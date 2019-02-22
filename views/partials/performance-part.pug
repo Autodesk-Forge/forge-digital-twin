@@ -1,2 +1,15 @@
 h5 Temperature
 canvas#part-temperatures-chart(width='100%')
+br
+
+form#temperature-alert-form
+  h5 Temperature Alert
+  .row.mb-2
+    label.col-sm-2.col-form-label(for='temperature-alert-part') Part #
+    .col-sm-2
+      input#temperature-alert-part.form-control-plaintext(type='text' readonly='' value='123')
+    label.col-sm-4.col-form-label(for='temperature-alert-max') Max Temp [C]
+    .col-sm-4
+      input#temperature-alert-max.form-control(type='text' value='')
+  button.btn.btn-primary.mr-2 Set
+  button.btn.btn-secondary Clear
