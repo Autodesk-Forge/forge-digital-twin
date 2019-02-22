@@ -1,0 +1,19 @@
+<ul class="nav nav-tabs mb-3 nav-fill" id="procurement-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="procurement-purchases-tab" data-toggle="tab" href="#procurement-purchases"
+            role="tab" aria-controls="procurement-purchases" aria-selected="false">Purchases</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="procurement-stats-tab" data-toggle="tab" href="#procurement-stats" role="tab"
+            aria-controls="procurement-stats" aria-selected="true">Statistics</a>
+    </li>
+</ul>
+<div class="tab-content" id="procurement-tabs-content">
+    <div class="tab-pane fade show active" id="procurement-purchases" role="tabpanel"
+        aria-labelledby="procurement-purchases-tab">
+        <% include ./procurement-purchases %>
+    </div>
+    <div class="tab-pane fade" id="procurement-stats" role="tabpanel" aria-labelledby="procurement-stats-tab">
+        <% include ./procurement-stats %>
+    </div>
+</div>

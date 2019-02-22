@@ -10,10 +10,12 @@ if (!FORGE_CLIENT_ID || !FORGE_CLIENT_SECRET) {
 const db = require('./model/db');
 const app = express();
 
+app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/', require('./routes/index'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/procurement', require('./routes/procurement'));
 app.use('/api/maintenance', require('./routes/maintenance'));

@@ -1,0 +1,25 @@
+<ul class="nav nav-tabs mb-3 nav-fill" id="maintenance-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="maintenance-revisions-tab" data-toggle="tab" href="#maintenance-revisions"
+            role="tab" aria-controls="maintenance-revisions" aria-selected="true">Revisions</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="maintenance-issues-tab" data-toggle="tab" href="#maintenance-issues" role="tab"
+            aria-controls="maintenance-issues" aria-selected="false">Issues</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="maintenance-statistics-tab" data-toggle="tab" href="#maintenance-statistics" role="tab"
+            aria-controls="maintenance-statistics" aria-selected="false">Statistics</a>
+    </li>
+</ul>
+<div class="tab-content" id="maintenance-tabs-content">
+    <div class="tab-pane fade show active" id="maintenance-revisions" role="tabpanel" aria-labelledby="maintenance-revisions-tab">
+        <% include ./maintenance-revisions %>
+    </div>
+    <div class="tab-pane fade" id="maintenance-issues" role="tabpanel" aria-labelledby="maintenance-issues-tab">
+        <% include ./maintenance-issues %>
+    </div>
+    <div class="tab-pane fade" id="maintenance-statistics" role="tabpanel" aria-labelledby="maintenance-statistics-tab">
+        <% include ./maintenance-stats %>
+    </div>
+</div>
