@@ -1,0 +1,30 @@
+h5 New Issue
+form#issue-form
+  .row.mb-2
+    label.col-sm-2.col-form-label(for='issue-part') Part #
+    .col-sm-10
+      input#issue-part.form-control-plaintext(type='text' readonly='' value='123')
+  .row.mb-2
+    label.col-sm-2.col-form-label(for='issue-title') Title
+    .col-sm-10
+      input#issue-title.form-control(type='text' value='Issue Title')
+  .row.mb-2
+    label.col-sm-2.col-form-label(for='issue-author') Author
+    .col-sm-10
+      input#issue-author.form-control(type='text' value='John Doe')
+  .row.mb-2
+    label.col-sm-1.col-form-label(for='issue-position-x') X
+    .col-sm-3
+      input#issue-position-x.form-control(type='text' value='0.0')
+    label.col-sm-1.col-form-label(for='issue-position-y') Y
+    .col-sm-3
+      input#issue-position-y.form-control(type='text' value='0.0')
+    label.col-sm-1.col-form-label(for='issue-position-z') Z
+    .col-sm-3
+      input#issue-position-z.form-control(type='text' value='0.0')
+  button.btn.btn-primary.btn-block(type='submit') Submit
+#issue-modal.modal.fade(tabindex='-1' role='dialog' aria-hidden='true')
+  .modal-dialog
+    .modal-content
+      .modal-body
+        p ...

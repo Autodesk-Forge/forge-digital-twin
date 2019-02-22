@@ -1,0 +1,10 @@
+ul#performance-tabs.nav.nav-tabs.mb-3.nav-fill(role='tablist')
+  li.nav-item
+    a#performance-general-tab.nav-link.active(data-toggle='tab' href='#performance-general' role='tab' aria-controls='performance-general' aria-selected='false') General
+  li.nav-item
+    a#performance-part-tab.nav-link(data-toggle='tab' href='#performance-part' role='tab' aria-controls='performance-part' aria-selected='true') Part
+#procurement-tabs-content.tab-content
+  #performance-general.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='performance-general-tab')
+    include ./performance-general.pug
+  #performance-part.tab-pane.fade(role='tabpanel' aria-labelledby='performance-part-tab')
+    include ./performance-part.pug

@@ -10,7 +10,7 @@ if (!FORGE_CLIENT_ID || !FORGE_CLIENT_SECRET) {
 const db = require('./model/db');
 const app = express();
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'pug');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
