@@ -106,10 +106,10 @@ function initMaintenanceTab() {
         });
     }
 
-    $('#revisions').on('click', function(ev) {
-        let partId = parseInt(ev.target.innerText);
-        if (partId) {
-            let selectedIds = NOP_VIEWER.getSelection();
+    $('#revisions').on('click', function(ev) {        
+        if (ev.target.innerText.match(/^\d+$/)) {
+            const partId = parseInt(ev.target.innerText);
+            const selectedIds = NOP_VIEWER.getSelection();
             if (selectedIds.length == 0 || selectedIds[0] !== partId) {
                 NOP_VIEWER.select(partId);
                 NOP_VIEWER.fitToView([partId]);
@@ -118,8 +118,8 @@ function initMaintenanceTab() {
     });
 
     $pagination.on('click', function(ev) {
-        let page = parseInt(ev.target.innerText);
-        if (page) {
+        if (ev.target.innerText.match(/^\d+$/)) {
+            const page = parseInt(ev.target.innerText);
             maintenance.currPage = page - 1;
             updateRevisionsTable();
             updateRevisionsPagination();
