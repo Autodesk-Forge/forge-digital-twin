@@ -1,4 +1,4 @@
-class MarkupExtension extends Autodesk.Viewing.Extension {
+class IssuesExtension extends Autodesk.Viewing.Extension {
     load() {
         this._enabled = false;
         this._issues = [];
@@ -29,7 +29,7 @@ class MarkupExtension extends Autodesk.Viewing.Extension {
     _createUI() {
         const viewer = this.viewer;
 
-        this.button = new Autodesk.Viewing.UI.Button('MarkupButton');
+        this.button = new Autodesk.Viewing.UI.Button('IssuesButton');
         this.button.onClick = () => {
             this._enabled = !this._enabled;
             if (this._enabled) {
@@ -42,7 +42,7 @@ class MarkupExtension extends Autodesk.Viewing.Extension {
         };
         const icon = this.button.container.children[0];
         icon.classList.add('fas', 'fa-flag');
-        this.button.setToolTip('Markups');
+        this.button.setToolTip('Issues');
         this.toolbar = viewer.toolbar.getControl('CustomToolbar') || new Autodesk.Viewing.UI.ControlGroup('CustomToolbar');
         this.toolbar.addControl(this.button);
         viewer.toolbar.addControl(this.toolbar);
@@ -87,4 +87,4 @@ class MarkupExtension extends Autodesk.Viewing.Extension {
     }
 }
 
-Autodesk.Viewing.theExtensionManager.registerExtension('MarkupExtension', MarkupExtension);
+Autodesk.Viewing.theExtensionManager.registerExtension('IssuesExtension', IssuesExtension);
