@@ -25,7 +25,7 @@ function initPerformanceTab() {
     function updateTemperatures() {
         // Generate new temperatures for each partId from 1 to 1500
         for (let i = 0, len = temperatures.length; i < len; i++) {
-            temperatures[i] = Math.random() * 100.0;
+            temperatures[i] = 90.0 + Math.random() * 20.0;
         }
         // Trigger alerts if any part temperature exceed preconfigured limit
         Object.keys(alerts).forEach(function(partId) {
@@ -54,7 +54,12 @@ function initPerformanceTab() {
                     data: []
                 }]
             },
-            options: { scales: { xAxes: [{ type: 'realtime', realtime: { delay: 2000 } }] } }
+            options: {
+                scales: {
+                    xAxes: [{ type: 'realtime', realtime: { delay: 2000 } }],
+                    yAxes: [{ ticks: { beginAtZero: true } }]
+                }
+            }
         });
         return chart;
     }
@@ -81,7 +86,12 @@ function initPerformanceTab() {
                     data: []
                 }]
             },
-            options: { scales: { xAxes: [{ type: 'realtime', realtime: { delay: 2000 } }] } }
+            options: {
+                scales: {
+                    xAxes: [{ type: 'realtime', realtime: { delay: 2000 } }],
+                    yAxes: [{ ticks: { beginAtZero: true } }]
+                }
+            }
         });
         return chart;
     }
@@ -91,7 +101,12 @@ function initPerformanceTab() {
         const chart = new Chart(ctx, {
             type: 'line',
             data: { datasets: [] },
-            options: { scales: { xAxes: [{ type: 'realtime', realtime: { delay: 2000 } }] } }
+            options: {
+                scales: {
+                    xAxes: [{ type: 'realtime', realtime: { delay: 2000 } }],
+                    yAxes: [{ ticks: { beginAtZero: true } }]
+                }
+            }
         });
         return chart;
     }
@@ -99,14 +114,14 @@ function initPerformanceTab() {
     function refreshEngineSpeed(chart) {
         chart.data.datasets[0].data.push({
             x: Date.now(),
-            y: 5000.0 + Math.random() * 5000.0
+            y: 9750.0 + Math.random() * 500.0
         });
     }
 
     function refreshEngineVibrations(chart) {
         const date = Date.now();
-        const minVibration = Math.random() * 10.0;
-        const maxVibration = minVibration + Math.random() * 10.0;
+        const minVibration = 2.0 + Math.random();
+        const maxVibration = minVibration + Math.random();
         chart.data.datasets[0].data.push({ x: date, y: minVibration });
         chart.data.datasets[1].data.push({ x: date, y: 0.5 * (minVibration + maxVibration) });
         chart.data.datasets[2].data.push({ x: date, y: maxVibration });

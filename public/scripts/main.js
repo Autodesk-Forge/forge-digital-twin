@@ -16,7 +16,7 @@ let app = null;
 
 Autodesk.Viewing.Initializer(options, () => {
 	app = new Autodesk.Viewing.ViewingApplication('viewer');
-    app.registerViewer(app.k3D, Autodesk.Viewing.Private.GuiViewer3D, { extensions: ['HeatmapExtension', 'MarkupExtension', 'AnimationExtension'] });
+    app.registerViewer(app.k3D, Autodesk.Viewing.Private.GuiViewer3D, { extensions: ['HeatmapExtension', 'IssuesExtension', 'AnimationExtension'] });
     loadModel(URN);
 });
 
