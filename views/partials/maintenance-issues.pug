@@ -1,3 +1,27 @@
+h5 Existing Issues
+table#issues.table.table-hover.table-sm
+  thead
+    tr
+      th(scope='col') Date
+      th(scope='col') Part #
+      th(scope='col') Author
+      th(scope='col') Text
+  tbody
+nav
+  ul.pagination.justify-content-center
+    li.page-item
+      a.page-link(href='#' aria-label='Previous')
+        span(aria-hidden='true') &laquo;
+    li.page-item.active
+      a.page-link(href='#') 1
+    li.page-item
+      a.page-link(href='#') 2
+    li.page-item
+      a.page-link(href='#') 3
+    li.page-item
+      a.page-link(href='#' aria-label='Next')
+        span(aria-hidden='true') &raquo;
+
 h5 New Issue
 form#issue-form
   .row.mb-2
