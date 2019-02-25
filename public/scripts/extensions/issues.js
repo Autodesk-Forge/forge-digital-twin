@@ -18,6 +18,11 @@ class IssuesExtension extends Autodesk.Viewing.Extension {
                 this._updateMarkups();
             }
         });
+        this.viewer.addEventListener(Autodesk.Viewing.ISOLATE_EVENT, () => {
+            if (this._enabled) {
+                this._createMarkups(this.viewer.getIsolatedNodes());
+            }
+        });
 
         return true;
     }
@@ -48,9 +53,11 @@ class IssuesExtension extends Autodesk.Viewing.Extension {
         viewer.toolbar.addControl(this.toolbar);
     }
 
-    async _createMarkups() {
+    async _createMarkups(partIds) {
         const $viewer = $('#viewer');
-        const response = await fetch('/api/maintenance/issues');
+        $('#viewer label.markup').remove();
+        const query = (partIds && partIds.length > 0) ? '?parts=' + partIds.join(',') : '';
+        const response = await fetch('/api/maintenance/issues' + query);
         this._issues = await response.json();
         for (const issue of this._issues) {
             // Randomly assign placeholder image to some issues
