@@ -1,0 +1,46 @@
+h5 Purchase History
+table#purchases.table.table-hover.table-sm
+  thead
+    tr
+      th(scope='col') Date
+      th(scope='col') Part #
+      th(scope='col') Supplier
+      th(scope='col') Price
+  tbody
+nav
+  ul.pagination.justify-content-center
+    li.page-item
+      a.page-link(href='#' aria-label='Previous')
+        span(aria-hidden='true') &laquo;
+    li.page-item.active
+      a.page-link(href='#') 1
+    li.page-item
+      a.page-link(href='#') 2
+    li.page-item
+      a.page-link(href='#') 3
+    li.page-item
+      a.page-link(href='#' aria-label='Next')
+        span(aria-hidden='true') &raquo;
+h5 New Purchase
+form#purchase-form
+  .row
+    label.col-sm-2.col-form-label(for='purchase-part') Part #
+    .col-sm-10
+      input#purchase-part.form-control-plaintext(type='text' readonly='' value='123')
+  .row
+    label.col-sm-2.col-form-label(for='purchase-supplier') Supplier
+    .col-sm-10
+      select#purchase-supplier.form-control.form-control-sm
+        option Foo Inc.
+        option Bar Ltd.
+        option Baz GmbH.
+  .row
+    label.col-sm-2.col-form-label(for='purchase-price') Price
+    .col-sm-10
+      input#purchase-price.form-control-plaintext(type='text' readonly='' value='$0.00')
+  button.btn.btn-primary.btn-block(type='submit') Submit
+#purchase-modal.modal.fade(tabindex='-1' role='dialog' aria-hidden='true')
+  .modal-dialog
+    .modal-content
+      .modal-body
+        p ...

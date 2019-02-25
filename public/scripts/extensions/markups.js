@@ -1,18 +1,7 @@
-const MOCK_MARKUP_NOTES = ['foo', 'bar', 'baz'];
-const MARKUP_DATA = [];
-for (let i = 0; i < 10; i++) {
-    MARKUP_DATA.push({
-        id: i,
-        x: (Math.random() - 0.5) * 100.0,
-        y: (Math.random() - 0.5) * 100.0,
-        z: (Math.random() - 0.5) * 1000.0,
-        note: MOCK_MARKUP_NOTES[Math.floor(Math.random() * MOCK_MARKUP_NOTES.length)]
-    });
-}
-
 class MarkupExtension extends Autodesk.Viewing.Extension {
     load() {
         this._enabled = false;
+        this._issues = [];
 
         if (this.viewer.toolbar) {
             this._createUI();
@@ -45,29 +34,39 @@ class MarkupExtension extends Autodesk.Viewing.Extension {
             this._enabled = !this._enabled;
             if (this._enabled) {
                 this._createMarkups();
+                this.button.setState(0);
             } else {
                 this._removeMarkups();
+                this.button.setState(1);
             }
         };
-        this.button.addClass('adsk-icon-box');
+        const icon = this.button.container.children[0];
+        icon.classList.add('fas', 'fa-flag');
         this.button.setToolTip('Markups');
         this.toolbar = viewer.toolbar.getControl('CustomToolbar') || new Autodesk.Viewing.UI.ControlGroup('CustomToolbar');
         this.toolbar.addControl(this.button);
         viewer.toolbar.addControl(this.toolbar);
     }
 
-    _createMarkups() {
+    async _createMarkups() {
         const $viewer = $('#viewer');
-        for (const item of MARKUP_DATA) {
-            const pos = this.viewer.worldToClient(new THREE.Vector3(item.x, item.y, item.z));
+        const response = await fetch('/api/maintenance/issues');
+        this._issues = await response.json();
+        for (const issue of this._issues) {
+            // Randomly assign placeholder image to some issues
+            if (Math.random() > 0.5) {
+                issue.img = 'https://placeimg.com/150/100/tech?' + issue.id
+            }
+            const pos = this.viewer.worldToClient(new THREE.Vector3(issue.x, issue.y, issue.z));
             const $label = $(`
-                <label class="markup" data-id="${item.id}">
-                    <img src="/favicon.ico" width="15" height="15" />
-                    <a href="#">${item.id}</a>: ${item.note}
+                <label class="markup" data-id="${issue.id}">
+                    <img class="arrow" src="/images/arrow.png" />
+                    <a href="#">${issue.author}</a>: ${issue.text}
+                    ${issue.img ? `<br><img class="thumbnail" src="${issue.img}" />` : ''}
                 </label>
             `);
-            $label.css('left', Math.floor(pos.x) + 'px');
-            $label.css('top', Math.floor(pos.y) + 'px');
+            $label.css('left', Math.floor(pos.x) + 10 /* arrow image width */ + 'px');
+            $label.css('top', Math.floor(pos.y) + 10 /* arrow image height */ + 'px');
             $viewer.append($label);
         }
     }
@@ -76,10 +75,10 @@ class MarkupExtension extends Autodesk.Viewing.Extension {
         for (const label of $('#viewer label.markup')) {
             const $label = $(label);
             const id = $label.data('id');
-            const item = MARKUP_DATA[parseInt(id)];
+            const item = this._issues.find(issue => issue.id === parseInt(id));
             const pos = this.viewer.worldToClient(new THREE.Vector3(item.x, item.y, item.z));
-            $label.css('left', Math.floor(pos.x) + 'px');
-            $label.css('top', Math.floor(pos.y) + 'px');
+            $label.css('left', Math.floor(pos.x) + 10 /* arrow image width */ + 'px');
+            $label.css('top', Math.floor(pos.y) + 10 /* arrow image height */ + 'px');
         }
     }
 

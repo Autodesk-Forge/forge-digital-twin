@@ -16,7 +16,7 @@ let app = null;
 
 Autodesk.Viewing.Initializer(options, () => {
 	app = new Autodesk.Viewing.ViewingApplication('viewer');
-    app.registerViewer(app.k3D, Autodesk.Viewing.Private.GuiViewer3D, { extensions: ['HeatmapExtension', 'MarkupExtension'] });
+    app.registerViewer(app.k3D, Autodesk.Viewing.Private.GuiViewer3D, { extensions: ['HeatmapExtension', 'MarkupExtension', 'AnimationExtension'] });
     loadModel(URN);
 });
 
@@ -30,6 +30,7 @@ function loadModel(urn) {
         }
         function onDocumentLoadFailure() { reject('could not load document'); }
         function onItemLoadSuccess() {
+            initPerformanceTab();
             initMaintenanceTab();
             initProcurementTab();
             initViewer();
@@ -42,8 +43,8 @@ function loadModel(urn) {
 
 function initViewer() {
     NOP_VIEWER.setQualityLevel(/* ambient shadows */ false, /* antialiasing */ true);
-    NOP_VIEWER.setGroundShadow(false);
-    NOP_VIEWER.setGroundReflection(true);
+    NOP_VIEWER.setGroundShadow(true);
+    NOP_VIEWER.setGroundReflection(false);
     NOP_VIEWER.setGhosting(true);
     NOP_VIEWER.setEnvMapBackground(true);
     NOP_VIEWER.setLightPreset(5);
