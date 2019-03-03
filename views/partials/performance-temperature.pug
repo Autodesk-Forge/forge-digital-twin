@@ -1,0 +1,17 @@
+h5 Temperature
+<svg width="200" height="100">
+  <defs>
+    <mask id="gauge-mask">
+      <circle fill="white" cx="100" cy="100" r="75"></circle>
+      <circle fill="black" cx="100" cy="100" r="50"></circle>
+    </mask>
+  </defs>
+  <polygon points="100,100 0,100 0,0" fill="green" mask="url(#gauge-mask)"></polygon>
+  <polygon points="100,100 0,0 200,0" fill="orange" mask="url(#gauge-mask)"></polygon>
+  <polygon points="100,100 200,0 200,100" fill="red" mask="url(#gauge-mask)"></polygon>
+  <text fill="gray" x="5" y="100">0°</text>
+  <text fill="gray" x="20" y="50">25°</text>
+  <text fill="gray" x="160" y="50">75°</text>
+  <text fill="gray" x="175" y="100">100°</text>
+  <polygon id="gauge-needle" points="100,105 95,100 100,25 105,100" fill="black" transform="rotate(-30,100,100)"></polygon>
+</svg>

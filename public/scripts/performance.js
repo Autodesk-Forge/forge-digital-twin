@@ -12,6 +12,8 @@ function initPerformanceTab() {
 
     const ALERTS_STORAGE_KEY = 'alert-config';
     const alerts = JSON.parse(localStorage.getItem(ALERTS_STORAGE_KEY) || '{}');
+
+    const needle = document.getElementById('gauge-needle');
     /*
     alerts = {
         <partId>: {
@@ -40,6 +42,8 @@ function initPerformanceTab() {
                 }, 500);
             }
         });
+        // update temperature gauge
+        needle.setAttribute('transform', `rotate(${-90 + Math.floor(Math.random() * 180)}, 100, 100)`);
     }
 
     function createEngineSpeedChart() {
