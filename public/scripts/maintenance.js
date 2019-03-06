@@ -208,6 +208,15 @@ function initMaintenanceTab() {
         const ids = NOP_VIEWER.getSelection()
         updateRevisionForm(ids);
         updateIssueForm(ids);
+        if (ids.length === 1) {
+            // Choose one of the pages in the pdf with some nice diagrams
+            const page = [8, 6, 5][ids[0] % 3];
+            $('#maintenance-instructions embed').attr('src', `/resources/Learning_about_how_aircraft_engines_work_and_fail.pdf#page=${page}`);
+            $('#maintenance-instructions div.alert').hide();
+        } else {
+            $('#maintenance-instructions embed').attr('src', '');
+            $('#maintenance-instructions div.alert').show();
+        }
     });
 
     // Handle the event of submitting new revision

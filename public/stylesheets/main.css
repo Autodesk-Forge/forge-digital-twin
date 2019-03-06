@@ -66,3 +66,8 @@ body {
 .adsk-viewing-viewer.dark-theme .adsk-button:hover {
     border: 1px solid #EBB30B;
 }
+
+#maintenance-instructions embed {
+    width: 100%;
+    height: 500px;
+}
