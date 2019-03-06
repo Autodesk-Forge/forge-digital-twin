@@ -3,12 +3,8 @@ ul#performance-tabs.nav.nav-tabs.mb-3.nav-fill(role='tablist')
     a#performance-general-tab.nav-link.active(data-toggle='tab' href='#performance-general' role='tab' aria-controls='performance-general' aria-selected='false') General
   li.nav-item
     a#performance-part-tab.nav-link(data-toggle='tab' href='#performance-part' role='tab' aria-controls='performance-part' aria-selected='true') Part
-  li.nav-item
-    a#performance-temperature-tab.nav-link(data-toggle='tab' href='#performance-temperature' role='tab' aria-controls='performance-temperature' aria-selected='true') Temperature Gauge
 #procurement-tabs-content.tab-content
   #performance-general.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='performance-general-tab')
     include ./performance-general.pug
   #performance-part.tab-pane.fade(role='tabpanel' aria-labelledby='performance-part-tab')
     include ./performance-part.pug
-  #performance-temperature.tab-pane.fade(role='tabpanel' aria-labelledby='performance-temperature-tab')
-    include ./performance-temperature.pug
