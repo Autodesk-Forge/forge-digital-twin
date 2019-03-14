@@ -117,25 +117,25 @@ function initMaintenanceTab() {
         const chart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
                 datasets: [{
                     label: 'Status',
                     data: [12, 19, 3, 5, 2, 3].map(i => Math.floor(Math.random() * 100)),
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                        'rgba(255, 0, 0, 0.2)',
+                        'rgba(0, 255, 0, 0.2)',
+                        'rgba(255, 0, 0, 0.2)',
+                        'rgba(0, 255, 0, 0.2)',
+                        'rgba(255, 0, 0, 0.2)',
+                        'rgba(0, 255, 0, 0.2)'
                     ],
                     borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
+                        'rgba(255, 0, 0, 1.0)',
+                        'rgba(0, 255, 0, 1.0)',
+                        'rgba(255, 0, 0, 1.0)',
+                        'rgba(0, 255, 0, 1.0)',
+                        'rgba(255, 0, 0, 1.0)',
+                        'rgba(0, 255, 0, 1.0)'
                     ],
                     borderWidth: 1
                 }]
@@ -230,10 +230,19 @@ function initMaintenanceTab() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ partId, author, passed, description })
         }).then(resp => {
-            $('#revision-modal .modal-body > p').text(`Revision Response: ${resp.statusText} (${resp.status})`);
-            $('#revision-modal').modal('show');
-            updateRevisions(true, NOP_VIEWER.getIsolatedNodes());
-            setTimeout(function() { $('#revision-modal').modal('hide'); }, 1000);
+            const $modal = $('#revision-modal');
+            if (resp.status === 200) {
+                $('#revision-modal .modal-body > p').text(`Revision Response: ${resp.statusText} (${resp.status})`);
+                $modal.modal('show');
+                setTimeout(function() { $modal.modal('hide'); }, 1000);
+                updateRevisions(true, NOP_VIEWER.getIsolatedNodes());
+            } else {
+                resp.text().then(text => {
+                    $('#revision-modal .modal-body > p').text(`Revision Response: ${resp.statusText} (${resp.status}) ${text}`);
+                    $modal.modal('show');
+                    setTimeout(function() { $modal.modal('hide'); }, 5000);
+                });
+            }
         });
         ev.preventDefault();
     });
@@ -251,10 +260,19 @@ function initMaintenanceTab() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ partId, text, author, x, y, z })
         }).then(resp => {
-            $('#issue-modal .modal-body > p').text(`Issue Response: ${resp.statusText} (${resp.status})`);
-            $('#issue-modal').modal('show');
-            updateIssues(true, NOP_VIEWER.getIsolatedNodes());
-            setTimeout(function() { $('#issue-modal').modal('hide'); }, 1000);
+            const $modal = $('#issue-modal');
+            if (resp.status === 200) {
+                $('#issue-modal .modal-body > p').text(`Issue Response: ${resp.statusText} (${resp.status})`);
+                $modal.modal('show');
+                setTimeout(function() { $modal.modal('hide'); }, 1000);
+                updateIssues(true, NOP_VIEWER.getIsolatedNodes());
+            } else {
+                resp.text().then(text => {
+                    $('#issue-modal .modal-body > p').text(`Issue Response: ${resp.statusText} (${resp.status}) ${text}`);
+                    $modal.modal('show');
+                    setTimeout(function() { $modal.modal('hide'); }, 5000);
+                });
+            }
         });
         ev.preventDefault();
     });

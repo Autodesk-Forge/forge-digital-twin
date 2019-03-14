@@ -63,15 +63,15 @@ function initProcurementTab() {
         const chart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
                 datasets: [{
                     label: 'Price ($)',
-                    data: [12, 19, 3, 5, 2, 3].map(i => Math.floor(Math.random() * 100)),
+                    data: [12, 19, 3, 5, 2, 3].map(i => Math.floor(150.0 + Math.random() * 50.0)),
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)'
+                        'rgba(192, 128, 0, 0.5)'
                     ],
                     borderColor: [
-                        'rgba(255,99,132,1)'
+                        'rgba(192, 128, 0, 1.0)'
                     ],
                     borderWidth: 1
                 }]
@@ -122,10 +122,19 @@ function initProcurementTab() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ partId, supplier, price })
         }).then(resp => {
-            $('#purchase-modal .modal-body > p').text(`Purchase Response: ${resp.statusText} (${resp.status})`);
-            $('#purchase-modal').modal('show');
-            updatePurchases(true, NOP_VIEWER.getIsolatedNodes());
-            setTimeout(function() { $('#purchase-modal').modal('hide'); }, 1000);
+            const $modal = $('#purchase-modal');
+            if (resp.status === 200) {
+                $('#purchase-modal .modal-body > p').text(`Purchase Response: ${resp.statusText} (${resp.status})`);
+                $modal.modal('show');
+                setTimeout(function() { $modal.modal('hide'); }, 1000);
+                updatePurchases(true, NOP_VIEWER.getIsolatedNodes());
+            } else {
+                resp.text().then(text => {
+                    $('#purchase-modal .modal-body > p').text(`Purchase Response: ${resp.statusText} (${resp.status}) ${text}`);
+                    $modal.modal('show');
+                    setTimeout(function() { $modal.modal('hide'); }, 5000);
+                });
+            }
         });
         ev.preventDefault();
     });

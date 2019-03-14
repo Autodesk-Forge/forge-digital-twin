@@ -25,6 +25,7 @@ function initPerformanceTab() {
     */
 
     function updateTemperatures() {
+        /*
         // Generate new temperatures for each partId from 1 to 1500
         for (let i = 0, len = temperatures.length; i < len; i++) {
             temperatures[i] = 90.0 + Math.random() * 20.0;
@@ -42,8 +43,9 @@ function initPerformanceTab() {
                 }, 500);
             }
         });
+        */
         // update temperature gauge
-        needle.setAttribute('transform', `rotate(${-90 + Math.floor(Math.random() * 180)}, 100, 100)`);
+        needle.setAttribute('transform', `rotate(${Math.floor(Math.random() * 20)}, 100, 100)`);
     }
 
     function createEngineSpeedChart() {
@@ -105,25 +107,25 @@ function initPerformanceTab() {
         const chart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
                 datasets: [{
-                    label: 'Status',
+                    label: 'Avg. Temp.',
                     data: [12, 19, 3, 5, 2, 3].map(i => Math.floor(Math.random() * 100)),
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                        'rgba(192, 128, 0, 0.5)',
+                        'rgba(192, 128, 0, 0.5)',
+                        'rgba(192, 128, 0, 0.5)',
+                        'rgba(192, 128, 0, 0.5)',
+                        'rgba(192, 128, 0, 0.5)',
+                        'rgba(192, 128, 0, 0.5)'
                     ],
                     borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
+                        'rgba(192, 128, 0, 1.0)',
+                        'rgba(192, 128, 0, 1.0)',
+                        'rgba(192, 128, 0, 1.0)',
+                        'rgba(192, 128, 0, 1.0)',
+                        'rgba(192, 128, 0, 1.0)',
+                        'rgba(192, 128, 0, 1.0)'
                     ],
                     borderWidth: 1
                 }]

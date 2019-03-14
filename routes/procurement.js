@@ -4,6 +4,8 @@ const { Purchase } = require('../model/procurement');
 
 let router = express.Router();
 
+const PurchaseTableLimit = 256;
+
 router.get('/purchases', function(req, res) {
     let query = undefined;
     if (req.query.parts) {
@@ -23,10 +25,20 @@ router.get('/purchases/:id', function(req, res) {
         .then(purchase => purchase ? res.json(purchase) : res.status(404).end());
 });
 
-router.post('/purchases', function(req, res) {
+router.post('/purchases', async function(req, res) {
     const { supplier, price, partId } = req.body;
-    Purchase.create({ supplier, price, partId })
-        .then(purchase => res.json(purchase));
+    const numPurchases = await Purchase.count();
+    if (numPurchases >= PurchaseTableLimit) {
+        res.status(405).send('Cannot add more purchases.');
+        return;  
+    }
+
+    try {
+        const purchase = await Purchase.create({ supplier, price, partId });
+        res.json(purchase);
+    } catch(err) {
+        res.status(400).send(err);
+    }
 });
 
 module.exports = router;
