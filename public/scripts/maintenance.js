@@ -230,16 +230,17 @@ function initMaintenanceTab() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ partId, author, passed, description })
         }).then(resp => {
+            const $modal = $('#revision-modal');
             if (resp.status === 200) {
                 $('#revision-modal .modal-body > p').text(`Revision Response: ${resp.statusText} (${resp.status})`);
-                $('#revision-modal').modal('show');
-                setTimeout(function() { $('#revision-modal').modal('hide'); }, 1000);
+                $modal.modal('show');
+                setTimeout(function() { $modal.modal('hide'); }, 1000);
                 updateRevisions(true, NOP_VIEWER.getIsolatedNodes());
             } else {
                 resp.text().then(text => {
                     $('#revision-modal .modal-body > p').text(`Revision Response: ${resp.statusText} (${resp.status}) ${text}`);
-                    $('#revision-modal').modal('show');
-                    setTimeout(function() { $('#revision-modal').modal('hide'); }, 5000);
+                    $modal.modal('show');
+                    setTimeout(function() { $modal.modal('hide'); }, 5000);
                 });
             }
         });
@@ -259,16 +260,17 @@ function initMaintenanceTab() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ partId, text, author, x, y, z })
         }).then(resp => {
+            const $modal = $('#issue-modal');
             if (resp.status === 200) {
                 $('#issue-modal .modal-body > p').text(`Issue Response: ${resp.statusText} (${resp.status})`);
-                $('#issue-modal').modal('show');
-                setTimeout(function() { $('#issue-modal').modal('hide'); }, 1000);
+                $modal.modal('show');
+                setTimeout(function() { $modal.modal('hide'); }, 1000);
                 updateIssues(true, NOP_VIEWER.getIsolatedNodes());
             } else {
                 resp.text().then(text => {
                     $('#issue-modal .modal-body > p').text(`Issue Response: ${resp.statusText} (${resp.status}) ${text}`);
-                    $('#issue-modal').modal('show');
-                    setTimeout(function() { $('#issue-modal').modal('hide'); }, 5000);
+                    $modal.modal('show');
+                    setTimeout(function() { $modal.modal('hide'); }, 5000);
                 });
             }
         });

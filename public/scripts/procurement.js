@@ -122,16 +122,17 @@ function initProcurementTab() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ partId, supplier, price })
         }).then(resp => {
+            const $modal = $('#purchase-modal');
             if (resp.status === 200) {
                 $('#purchase-modal .modal-body > p').text(`Purchase Response: ${resp.statusText} (${resp.status})`);
-                $('#purchase-modal').modal('show');
-                setTimeout(function() { $('#purchase-modal').modal('hide'); }, 1000);
+                $modal.modal('show');
+                setTimeout(function() { $modal.modal('hide'); }, 1000);
                 updatePurchases(true, NOP_VIEWER.getIsolatedNodes());
             } else {
                 resp.text().then(text => {
                     $('#purchase-modal .modal-body > p').text(`Purchase Response: ${resp.statusText} (${resp.status}) ${text}`);
-                    $('#purchase-modal').modal('show');
-                    setTimeout(function() { $('#purchase-modal').modal('hide'); }, 5000);
+                    $modal.modal('show');
+                    setTimeout(function() { $modal.modal('hide'); }, 5000);
                 });
             }
         });
