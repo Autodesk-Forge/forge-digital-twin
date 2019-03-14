@@ -63,15 +63,15 @@ function initProcurementTab() {
         const chart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
                 datasets: [{
                     label: 'Price ($)',
-                    data: [12, 19, 3, 5, 2, 3].map(i => Math.floor(Math.random() * 100)),
+                    data: [12, 19, 3, 5, 2, 3].map(i => Math.floor(150.0 + Math.random() * 50.0)),
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)'
+                        'rgba(192, 128, 0, 0.5)'
                     ],
                     borderColor: [
-                        'rgba(255,99,132,1)'
+                        'rgba(192, 128, 0, 1.0)'
                     ],
                     borderWidth: 1
                 }]
