@@ -122,10 +122,18 @@ function initProcurementTab() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ partId, supplier, price })
         }).then(resp => {
-            $('#purchase-modal .modal-body > p').text(`Purchase Response: ${resp.statusText} (${resp.status})`);
-            $('#purchase-modal').modal('show');
-            updatePurchases(true, NOP_VIEWER.getIsolatedNodes());
-            setTimeout(function() { $('#purchase-modal').modal('hide'); }, 1000);
+            if (resp.status === 200) {
+                $('#purchase-modal .modal-body > p').text(`Purchase Response: ${resp.statusText} (${resp.status})`);
+                $('#purchase-modal').modal('show');
+                setTimeout(function() { $('#purchase-modal').modal('hide'); }, 1000);
+                updatePurchases(true, NOP_VIEWER.getIsolatedNodes());
+            } else {
+                resp.text().then(text => {
+                    $('#purchase-modal .modal-body > p').text(`Purchase Response: ${resp.statusText} (${resp.status}) ${text}`);
+                    $('#purchase-modal').modal('show');
+                    setTimeout(function() { $('#purchase-modal').modal('hide'); }, 5000);
+                });
+            }
         });
         ev.preventDefault();
     });
