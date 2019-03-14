@@ -1,6 +1,20 @@
-h5 Temperature
+h5 Current Temperature
+svg#part-current-temperature(width='200', height='100')
+  defs
+    mask#gauge-mask
+      circle(fill='white', cx='100', cy='100', r='75')
+      circle(fill='black', cx='100', cy='100', r='50')
+  polygon(points='100,100 0,100 0,0', fill='green', mask='url(#gauge-mask)')
+  polygon(points='100,100 0,0 200,0', fill='orange', mask='url(#gauge-mask)')
+  polygon(points='100,100 200,0 200,100', fill='red', mask='url(#gauge-mask)')
+  text(fill='gray', x='5', y='100') 0°
+  text(fill='gray', x='20', y='50') 25°
+  text(fill='gray', x='160', y='50') 75°
+  text(fill='gray', x='175', y='100') 100°
+  polygon#gauge-needle(points='100,105 95,100 100,25 105,100', fill='black', transform='rotate(-30,100,100)')
+
+h5 Temperature History
 canvas#part-temperatures-chart(width='100%')
-br
 
 form#temperature-alert-form
   h5 Temperature Alert

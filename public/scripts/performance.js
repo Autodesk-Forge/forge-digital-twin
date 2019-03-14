@@ -12,6 +12,8 @@ function initPerformanceTab() {
 
     const ALERTS_STORAGE_KEY = 'alert-config';
     const alerts = JSON.parse(localStorage.getItem(ALERTS_STORAGE_KEY) || '{}');
+
+    const needle = document.getElementById('gauge-needle');
     /*
     alerts = {
         <partId>: {
@@ -40,6 +42,8 @@ function initPerformanceTab() {
                 }, 500);
             }
         });
+        // update temperature gauge
+        needle.setAttribute('transform', `rotate(${-90 + Math.floor(Math.random() * 180)}, 100, 100)`);
     }
 
     function createEngineSpeedChart() {
@@ -99,12 +103,38 @@ function initPerformanceTab() {
     function createPartTemperaturesChart() {
         const ctx = document.getElementById('part-temperatures-chart').getContext('2d');
         const chart = new Chart(ctx, {
-            type: 'line',
-            data: { datasets: [] },
+            type: 'bar',
+            data: {
+                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                datasets: [{
+                    label: 'Status',
+                    data: [12, 19, 3, 5, 2, 3].map(i => Math.floor(Math.random() * 100)),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
             options: {
                 scales: {
-                    xAxes: [{ type: 'realtime', realtime: { delay: 2000 } }],
-                    yAxes: [{ ticks: { beginAtZero: true } }]
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
             }
         });
@@ -127,18 +157,6 @@ function initPerformanceTab() {
         chart.data.datasets[2].data.push({ x: date, y: maxVibration });
     }
 
-    function refreshPartTemperatures(chart) {
-        const partId = $('#temperature-alert-part').val();
-        if (partId) {
-            chart.data.datasets.forEach(function(dataset) {
-                dataset.data.push({
-                    x: Date.now(),
-                    y: temperatures[parseInt(partId)]
-                });
-            });
-        }
-    }
-
     function updateTemperatureAlertForm(partIds) {
         $form = $('#temperature-alert-form');
         if (!partIds || partIds.length !== 1) {
@@ -158,25 +176,6 @@ function initPerformanceTab() {
     const engineSpeedChart = createEngineSpeedChart();
     const engineVibrationsChart = createEngineVibrationsChart();
     const partTemperaturesChart = createPartTemperaturesChart();
-
-    NOP_VIEWER.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, function(ev) {
-        const ids = NOP_VIEWER.getSelection();
-        updateTemperatureAlertForm(ids);
-
-        partTemperaturesChart.data.datasets = [];
-        let counter = 0;
-        for (const id of ids) {
-            const color = COLOR_PALETTE[counter % COLOR_PALETTE.length];
-            partTemperaturesChart.data.datasets.push({
-                label: `Part #${id} Temp [C]`,
-                borderColor: `rgba(${color.r}, ${color.g}, ${color.b}, 1.0)`,
-                backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, 0.5)`,
-                data: []
-            });
-            counter++;
-        }
-        partTemperaturesChart.update();
-    });
 
     $('#temperature-alert-form button.btn-primary').on('click', function(ev) {
         const partId = parseInt($('#temperature-alert-part').val());
@@ -200,7 +199,6 @@ function initPerformanceTab() {
         updateTemperatures();
         refreshEngineSpeed(engineSpeedChart);
         refreshEngineVibrations(engineVibrationsChart);
-        refreshPartTemperatures(partTemperaturesChart);
     }, 1000);
     updateTemperatureAlertForm();
 }

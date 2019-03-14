@@ -59,10 +59,19 @@ body {
     margin-bottom: 1em;
 }
 
+div.tab-pane h5 {
+    margin-top: 1em;
+}
+
 .adsk-viewing-viewer.dark-theme .adsk-button:hover,
 .adsk-viewing-viewer.dark-theme .adsk-button.active {
     color: #EBB30B;
 }
 .adsk-viewing-viewer.dark-theme .adsk-button:hover {
     border: 1px solid #EBB30B;
+}
+
+#maintenance-instructions embed {
+    width: 100%;
+    height: 500px;
 }
