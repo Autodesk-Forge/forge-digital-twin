@@ -1,4 +1,4 @@
-function initPerformanceTab() {
+function initPerformanceTab(mainViewer) {
     const COLOR_PALETTE = [];
     for (let i = 8; i > 0; i--) {
         COLOR_PALETTE.push({
@@ -36,10 +36,10 @@ function initPerformanceTab() {
             const temp = temperatures[partId];
             if (alert && alert.temperature && temp > alert.temperature.max) {
                 // console.log(`Part ${partId} temperature ${temp} exceeded limit ${alert.temperature.max}!`);
-                NOP_VIEWER.setThemingColor(partId, new THREE.Vector4(1.0, 0.0, 0.0, 0.99));
+                mainViewer.setThemingColor(partId, new THREE.Vector4(1.0, 0.0, 0.0, 0.99));
                 setTimeout(function() {
                     // TODO: revert to original theming color if there was one
-                    NOP_VIEWER.setThemingColor(partId, new THREE.Vector4(1.0, 0.0, 0.0, 0.0));
+                    mainViewer.setThemingColor(partId, new THREE.Vector4(1.0, 0.0, 0.0, 0.0));
                 }, 500);
             }
         });

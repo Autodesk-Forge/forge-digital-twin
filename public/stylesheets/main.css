@@ -73,5 +73,10 @@ div.tab-pane h5 {
 
 #maintenance-instructions embed {
     width: 100%;
-    height: 500px;
+    height: 300px;
+}
+
+#viewer2d {
+    position: relative;
+    height: 300px;
 }

@@ -1,4 +1,4 @@
-function initProcurementTab() {
+function initProcurementTab(mainViewer) {
     const $tbody = $('#purchases > tbody');
     const $pagination = $('#procurement .pagination');
     let purchases = {
@@ -91,10 +91,10 @@ function initProcurementTab() {
     $('#purchases').on('click', function(ev) {
         if (ev.target.innerText.match(/^\d+$/)) {
             const partId = parseInt(ev.target.innerText);
-            const selectedIds = NOP_VIEWER.getSelection();
+            const selectedIds = mainViewer.getSelection();
             if (selectedIds.length == 0 || selectedIds[0] !== partId) {
-                NOP_VIEWER.select(partId);
-                NOP_VIEWER.fitToView([partId]);
+                mainViewer.select(partId);
+                mainViewer.fitToView([partId]);
             }
         }
     });
@@ -107,11 +107,11 @@ function initProcurementTab() {
             updatePurchasesPagination();
         }
     });
-    NOP_VIEWER.addEventListener(Autodesk.Viewing.ISOLATE_EVENT, function(ev) {
-        updatePurchases(true, NOP_VIEWER.getIsolatedNodes());
+    mainViewer.addEventListener(Autodesk.Viewing.ISOLATE_EVENT, function(ev) {
+        updatePurchases(true, mainViewer.getIsolatedNodes());
     });
-    NOP_VIEWER.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, function(ev) {
-        updatePurchaseForm(NOP_VIEWER.getSelection());
+    mainViewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, function(ev) {
+        updatePurchaseForm(mainViewer.getSelection());
     });
     $('#purchase-form button').on('click', function(ev) {
         const partId = parseInt($('#purchase-part').val());
@@ -127,7 +127,7 @@ function initProcurementTab() {
                 $('#purchase-modal .modal-body > p').text(`Purchase Response: ${resp.statusText} (${resp.status})`);
                 $modal.modal('show');
                 setTimeout(function() { $modal.modal('hide'); }, 1000);
-                updatePurchases(true, NOP_VIEWER.getIsolatedNodes());
+                updatePurchases(true, mainViewer.getIsolatedNodes());
             } else {
                 resp.text().then(text => {
                     $('#purchase-modal .modal-body > p').text(`Purchase Response: ${resp.statusText} (${resp.status}) ${text}`);

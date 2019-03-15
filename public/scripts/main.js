@@ -30,10 +30,11 @@ function loadModel(urn) {
         }
         function onDocumentLoadFailure() { reject('could not load document'); }
         function onItemLoadSuccess() {
-            initPerformanceTab();
-            initMaintenanceTab();
-            initProcurementTab();
-            initViewer();
+            const viewer = app.getCurrentViewer();
+            initPerformanceTab(viewer);
+            initMaintenanceTab(viewer);
+            initProcurementTab(viewer);
+            initViewer(viewer);
             resolve();
         }
         function onItemLoadFailure() { reject('could not load model'); }
@@ -41,12 +42,12 @@ function loadModel(urn) {
     });
 }
 
-function initViewer() {
-    NOP_VIEWER.setQualityLevel(/* ambient shadows */ false, /* antialiasing */ true);
-    NOP_VIEWER.setGroundShadow(true);
-    NOP_VIEWER.setGroundReflection(false);
-    NOP_VIEWER.setGhosting(true);
-    NOP_VIEWER.setEnvMapBackground(true);
-    NOP_VIEWER.setLightPreset(5);
-    NOP_VIEWER.setSelectionColor(new THREE.Color(0xEBB30B));
+function initViewer(viewer) {
+    viewer.setQualityLevel(/* ambient shadows */ false, /* antialiasing */ true);
+    viewer.setGroundShadow(true);
+    viewer.setGroundReflection(false);
+    viewer.setGhosting(true);
+    viewer.setEnvMapBackground(true);
+    viewer.setLightPreset(5);
+    viewer.setSelectionColor(new THREE.Color(0xEBB30B));
 }
