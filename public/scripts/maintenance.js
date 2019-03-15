@@ -1,4 +1,4 @@
-function initMaintenanceTab() {
+function initMaintenanceTab(mainViewer) {
     let maintenance = {
         list: [],
         pageSize: 5,
@@ -9,6 +9,7 @@ function initMaintenanceTab() {
         pageSize: 5,
         currPage: 0
     };
+    let viewerApp = null;
 
     async function updateRevisions(reload, partIds) {
         if (reload) {
@@ -152,14 +153,30 @@ function initMaintenanceTab() {
         });
     }
 
+    function initializeViewerApp() {
+        const urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Zm9yZ2UtZGlnaXRhbC10d2luL1ZCTDQuZHdn';
+        function onDocumentLoadSuccess() {
+            const viewables = viewerApp.bubble.search({ type: 'geometry' });
+            if (viewables.length > 0) {
+                viewerApp.selectItem(viewables[0].data);
+            }
+        }
+        function onDocumentLoadFailure() {
+            console.error('Could not load document');
+        }
+        viewerApp = new Autodesk.Viewing.ViewingApplication('viewer2d');
+        viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, { extensions: [] });
+        viewerApp.loadDocument('urn:' + urn, onDocumentLoadSuccess, onDocumentLoadFailure);
+    }
+
     // Highlight a part in 3D view when its ID is clicked in the revisions table
     $('#revisions').on('click', function(ev) {        
         if (ev.target.innerText.match(/^\d+$/)) {
             const partId = parseInt(ev.target.innerText);
-            const selectedIds = NOP_VIEWER.getSelection();
+            const selectedIds = mainViewer.getSelection();
             if (selectedIds.length == 0 || selectedIds[0] !== partId) {
-                NOP_VIEWER.select(partId);
-                NOP_VIEWER.fitToView([partId]);
+                mainViewer.select(partId);
+                mainViewer.fitToView([partId]);
             }
         }
     });
@@ -168,10 +185,10 @@ function initMaintenanceTab() {
     $('#issues').on('click', function(ev) {        
         if (ev.target.innerText.match(/^\d+$/)) {
             const partId = parseInt(ev.target.innerText);
-            const selectedIds = NOP_VIEWER.getSelection();
+            const selectedIds = mainViewer.getSelection();
             if (selectedIds.length == 0 || selectedIds[0] !== partId) {
-                NOP_VIEWER.select(partId);
-                NOP_VIEWER.fitToView([partId]);
+                mainViewer.select(partId);
+                mainViewer.fitToView([partId]);
             }
         }
     });
@@ -197,15 +214,31 @@ function initMaintenanceTab() {
     });
 
     // Filter revision/issue tables based on parts isolated in 3D view
-    NOP_VIEWER.addEventListener(Autodesk.Viewing.ISOLATE_EVENT, function(ev) {
-        const ids = NOP_VIEWER.getIsolatedNodes();
+    mainViewer.addEventListener(Autodesk.Viewing.ISOLATE_EVENT, function(ev) {
+        const ids = mainViewer.getIsolatedNodes();
         updateRevisions(true, ids);
         updateIssues(true, ids);
     });
 
+    // When "maintenance" tab is shown, make sure the 2D viewer is initialized
+    $('#maintenance-tab').on('shown.bs.tab', function (e) {
+        const visible = $('#maintenance-tab').hasClass('active') && $('#maintenance-instructions-tab').hasClass('active');
+        if (!viewerApp && visible && mainViewer.getSelection().length == 1) {
+            initializeViewerApp();
+        }
+    });
+
+    // When "docs" tab is shown, make sure the 2D viewer is initialized
+    $('#maintenance-instructions-tab').on('shown.bs.tab', function (e) {
+        const visible = $('#maintenance-tab').hasClass('active') && $('#maintenance-instructions-tab').hasClass('active');
+        if (!viewerApp && visible && mainViewer.getSelection().length == 1) {
+            initializeViewerApp();
+        }
+    });
+
     // Update revision/issue forms based on parts highlighted in 3D view
-    NOP_VIEWER.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, function(ev) {
-        const ids = NOP_VIEWER.getSelection()
+    mainViewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, function(ev) {
+        const ids = mainViewer.getSelection();
         updateRevisionForm(ids);
         updateIssueForm(ids);
         if (ids.length === 1) {
@@ -213,9 +246,17 @@ function initMaintenanceTab() {
             const page = [8, 6, 5][ids[0] % 3];
             $('#maintenance-instructions embed').attr('src', `/resources/Learning_about_how_aircraft_engines_work_and_fail.pdf#page=${page}`);
             $('#maintenance-instructions div.alert').hide();
+
+            // Activate the 2D viewer (but only when it's actually visible)
+            const visible = $('#maintenance-tab').hasClass('active') && $('#maintenance-instructions-tab').hasClass('active');
+            if (!viewerApp && visible) {
+                initializeViewerApp();
+            }
+            $('#viewer2d').show();
         } else {
             $('#maintenance-instructions embed').attr('src', '');
             $('#maintenance-instructions div.alert').show();
+            $('#viewer2d').hide();
         }
     });
 
@@ -235,7 +276,7 @@ function initMaintenanceTab() {
                 $('#revision-modal .modal-body > p').text(`Revision Response: ${resp.statusText} (${resp.status})`);
                 $modal.modal('show');
                 setTimeout(function() { $modal.modal('hide'); }, 1000);
-                updateRevisions(true, NOP_VIEWER.getIsolatedNodes());
+                updateRevisions(true, mainViewer.getIsolatedNodes());
             } else {
                 resp.text().then(text => {
                     $('#revision-modal .modal-body > p').text(`Revision Response: ${resp.statusText} (${resp.status}) ${text}`);
@@ -265,7 +306,7 @@ function initMaintenanceTab() {
                 $('#issue-modal .modal-body > p').text(`Issue Response: ${resp.statusText} (${resp.status})`);
                 $modal.modal('show');
                 setTimeout(function() { $modal.modal('hide'); }, 1000);
-                updateIssues(true, NOP_VIEWER.getIsolatedNodes());
+                updateIssues(true, mainViewer.getIsolatedNodes());
             } else {
                 resp.text().then(text => {
                     $('#issue-modal .modal-body > p').text(`Issue Response: ${resp.statusText} (${resp.status}) ${text}`);
@@ -280,7 +321,7 @@ function initMaintenanceTab() {
     // After a mouse click on 3D viewport, populate X/Y/Z of the intersection
     $('#viewer').on('click', function(ev) {
         let intersections = [];
-        NOP_VIEWER.impl.castRayViewport(NOP_VIEWER.impl.clientToViewport(ev.clientX, ev.clientY), false, null, null, intersections);
+        mainViewer.impl.castRayViewport(mainViewer.impl.clientToViewport(ev.clientX, ev.clientY), false, null, null, intersections);
         if (intersections.length > 0) {
             const intersection = intersections[0];
             $('#issue-part').val(intersection.dbId);
