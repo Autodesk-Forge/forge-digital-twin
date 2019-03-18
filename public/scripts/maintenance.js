@@ -330,7 +330,8 @@ function initMaintenanceTab(mainViewer) {
     // After a mouse click on 3D viewport, populate X/Y/Z of the intersection
     $('#viewer').on('click', function(ev) {
         let intersections = [];
-        mainViewer.impl.castRayViewport(mainViewer.impl.clientToViewport(ev.clientX, ev.clientY), false, null, null, intersections);
+        const bounds = document.getElementById('viewer').getBoundingClientRect();
+        mainViewer.impl.castRayViewport(mainViewer.impl.clientToViewport(ev.clientX - bounds.left, ev.clientY - bounds.top), false, null, null, intersections);
         if (intersections.length > 0) {
             const intersection = intersections[0];
             $('#issue-part').val(intersection.dbId);
