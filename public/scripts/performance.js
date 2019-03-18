@@ -179,6 +179,25 @@ function initPerformanceTab(mainViewer) {
     const engineVibrationsChart = createEngineVibrationsChart();
     const partTemperaturesChart = createPartTemperaturesChart();
 
+    const $partCurrentTemperature = $('#part-current-temperature');
+    const $partTemperatureChart = $('#part-temperatures-chart');
+    const $partSelectionAlert = $('#performance-part div.alert');
+    mainViewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, function(ev) {
+        const ids = mainViewer.getSelection();
+        if (ids.length === 1) {
+            $partCurrentTemperature.show();
+            $partTemperatureChart.show();
+            $partSelectionAlert.hide();
+        } else {
+            $partCurrentTemperature.hide();
+            $partTemperatureChart.hide();
+            $partSelectionAlert.show();
+        }
+    });
+    $partCurrentTemperature.hide();
+    $partTemperatureChart.hide();
+    $partSelectionAlert.show();
+
     $('#temperature-alert-form button.btn-primary').on('click', function(ev) {
         const partId = parseInt($('#temperature-alert-part').val());
         const tempMax = parseFloat($('#temperature-alert-max').val());
