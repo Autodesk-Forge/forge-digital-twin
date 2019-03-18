@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const helmet = require('helmet');
 
 const { FORGE_CLIENT_ID, FORGE_CLIENT_SECRET } = process.env;
 if (!FORGE_CLIENT_ID || !FORGE_CLIENT_SECRET) {
@@ -10,6 +11,7 @@ if (!FORGE_CLIENT_ID || !FORGE_CLIENT_SECRET) {
 const db = require('./model/db');
 const app = express();
 
+app.use(helmet());
 app.set('view engine', 'pug');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
