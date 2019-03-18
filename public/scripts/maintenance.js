@@ -159,6 +159,7 @@ function initMaintenanceTab(mainViewer) {
             const viewables = viewerApp.bubble.search({ type: 'geometry' });
             if (viewables.length > 0) {
                 viewerApp.selectItem(viewables[0].data);
+                viewerApp.getCurrentViewer().setSwapBlackAndWhite(true);
             }
         }
         function onDocumentLoadFailure() {
