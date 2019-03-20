@@ -1,12 +1,19 @@
+# Forge Digital Twin Demo
+
+![Platforms](https://img.shields.io/badge/platform-Windows|MacOS-lightgray.svg)
+![Node.js](https://img.shields.io/badge/node-%3E%3D%2010.0.0-brightgreen.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+
+[![Viewer](https://img.shields.io/badge/Viewer-v6-green.svg)](http://developer.autodesk.com/)
 [![Data-Management](https://img.shields.io/badge/Data%20Management-v1-green.svg)](http://autodesk-forge.github.io)
 [![OSS](https://img.shields.io/badge/OSS-v2-green.svg)](http://autodesk-forge.github.io)
 [![Model-Derivative](https://img.shields.io/badge/Model%20Derivative-v2-green.svg)](http://autodesk-forge.github.io)
 
-# Forge Digital Twin Demo
+![Intermediate](https://img.shields.io/badge/Level-Intermediate-blue.svg)
 
 Autodesk Forge application demonstrating various use cases in manufacturing, specifically in context of digital twins.
 
-![Screenshot](docs/screenshots/2019-02-20.png)
+![Screenshot](thumbnail.png)
 
 ## Live demo
 
@@ -42,6 +49,15 @@ sqlite and postgres dialects. By default, data is stored locally using sqlite,
 in a _database.sqlite_ file in the root of the repo. If you want to store data in a postgres database,
 provide `DATABASE_URL` env. variable in the following form: `postgres://<username>:<password>@<host>:<port>/<dbname>`.
 
+### Deployment
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+## Sample data
+
+The jet engine model used in the live demo can be obtained
+from https://knowledge.autodesk.com/sites/default/files/file_downloads/Jet_Engine_Model.zip.
+
 ## Support
 
 For support, please contact forge.help@autodesk.com.
@@ -50,3 +66,7 @@ For support, please contact forge.help@autodesk.com.
 
 This sample is licensed under the terms of the [MIT License](https://tldrlegal.com/license/mit-license).
 Please refer to [LICENSE](LICENSE) for more details.
+
+## Written by
+
+Petr Broz [@ipetrbroz](https://twitter.com/ipetrbroz), [Forge](http://forge.autodesk.com) Partner Development Group
