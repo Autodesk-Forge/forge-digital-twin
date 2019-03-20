@@ -1,12 +1,19 @@
+# Forge Digital Twin Demo
+
+![Platforms](https://img.shields.io/badge/platform-Windows|MacOS-lightgray.svg)
+![Node.js](https://img.shields.io/badge/node-%3E%3D%2010.0.0-brightgreen.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+
+[![Viewer](https://img.shields.io/badge/Viewer-v6-green.svg)](http://developer.autodesk.com/)
 [![Data-Management](https://img.shields.io/badge/Data%20Management-v1-green.svg)](http://autodesk-forge.github.io)
 [![OSS](https://img.shields.io/badge/OSS-v2-green.svg)](http://autodesk-forge.github.io)
 [![Model-Derivative](https://img.shields.io/badge/Model%20Derivative-v2-green.svg)](http://autodesk-forge.github.io)
 
-# Forge Digital Twin Demo
+![Intermediate](https://img.shields.io/badge/Level-Intermediate-blue.svg)
 
 Autodesk Forge application demonstrating various use cases in manufacturing, specifically in context of digital twins.
 
-![Screenshot](docs/screenshots/2019-02-20.png)
+![Screenshot](thumbnail.png)
 
 ## Live demo
 
