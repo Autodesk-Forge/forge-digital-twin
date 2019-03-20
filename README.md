@@ -42,6 +42,11 @@ sqlite and postgres dialects. By default, data is stored locally using sqlite,
 in a _database.sqlite_ file in the root of the repo. If you want to store data in a postgres database,
 provide `DATABASE_URL` env. variable in the following form: `postgres://<username>:<password>@<host>:<port>/<dbname>`.
 
+## Sample data
+
+The jet engine model used in the live demo can be obtained
+from https://knowledge.autodesk.com/sites/default/files/file_downloads/Jet_Engine_Model.zip.
+
 ## Support
 
 For support, please contact forge.help@autodesk.com.
