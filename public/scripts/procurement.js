@@ -107,12 +107,27 @@ function initProcurementTab(mainViewer) {
             updatePurchasesPagination();
         }
     });
+
     mainViewer.addEventListener(Autodesk.Viewing.ISOLATE_EVENT, function(ev) {
         updatePurchases(true, mainViewer.getIsolatedNodes());
     });
+
+    const $purchaseStats = $('#purchase-stats');
+    const $procurementStatsAlert = $('#procurement-stats div.alert');
     mainViewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, function(ev) {
-        updatePurchaseForm(mainViewer.getSelection());
+        const ids = mainViewer.getSelection();
+        updatePurchaseForm(ids);
+        if (ids.length === 1) {
+            $purchaseStats.show();
+            $procurementStatsAlert.hide();
+        } else {
+            $purchaseStats.hide();
+            $procurementStatsAlert.show();
+        }
     });
+    $purchaseStats.hide();
+    $procurementStatsAlert.show();
+
     $('#purchase-form button').on('click', function(ev) {
         const partId = parseInt($('#purchase-part').val());
         const supplier = $('#purchase-supplier').val();

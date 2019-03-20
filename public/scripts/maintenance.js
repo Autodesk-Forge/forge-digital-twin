@@ -238,6 +238,8 @@ function initMaintenanceTab(mainViewer) {
     });
 
     // Update revision/issue forms based on parts highlighted in 3D view
+    const $revisionStats = $('#revision-stats');
+    const $revisionStatsAlert = $('#maintenance-statistics div.alert');
     mainViewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, function(ev) {
         const ids = mainViewer.getSelection();
         updateRevisionForm(ids);
@@ -247,6 +249,8 @@ function initMaintenanceTab(mainViewer) {
             const page = [8, 6, 5][ids[0] % 3];
             $('#maintenance-instructions embed').attr('src', `/resources/Learning_about_how_aircraft_engines_work_and_fail.pdf#page=${page}`);
             $('#maintenance-instructions div.alert').hide();
+            $revisionStats.show();
+            $revisionStatsAlert.hide();
 
             // Activate the 2D viewer (but only when it's actually visible)
             const visible = $('#maintenance-tab').hasClass('active') && $('#maintenance-instructions-tab').hasClass('active');
@@ -257,9 +261,13 @@ function initMaintenanceTab(mainViewer) {
         } else {
             $('#maintenance-instructions embed').attr('src', '');
             $('#maintenance-instructions div.alert').show();
+            $revisionStats.hide();
+            $revisionStatsAlert.show();
             $('#viewer2d').hide();
         }
     });
+    $revisionStats.hide();
+    $revisionStatsAlert.show();
 
     // Handle the event of submitting new revision
     $('#revision-form button').on('click', function(ev) {
@@ -322,7 +330,8 @@ function initMaintenanceTab(mainViewer) {
     // After a mouse click on 3D viewport, populate X/Y/Z of the intersection
     $('#viewer').on('click', function(ev) {
         let intersections = [];
-        mainViewer.impl.castRayViewport(mainViewer.impl.clientToViewport(ev.clientX, ev.clientY), false, null, null, intersections);
+        const bounds = document.getElementById('viewer').getBoundingClientRect();
+        mainViewer.impl.castRayViewport(mainViewer.impl.clientToViewport(ev.clientX - bounds.left, ev.clientY - bounds.top), false, null, null, intersections);
         if (intersections.length > 0) {
             const intersection = intersections[0];
             $('#issue-part').val(intersection.dbId);
