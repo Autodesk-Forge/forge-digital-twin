@@ -55,3 +55,7 @@ For support, please contact forge.help@autodesk.com.
 
 This sample is licensed under the terms of the [MIT License](https://tldrlegal.com/license/mit-license).
 Please refer to [LICENSE](LICENSE) for more details.
+
+## Written by
+
+Petr Broz [@ipetrbroz](https://twitter.com/ipetrbroz), [Forge](http://forge.autodesk.com) Partner Development Group
