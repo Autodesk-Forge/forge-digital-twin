@@ -49,6 +49,10 @@ sqlite and postgres dialects. By default, data is stored locally using sqlite,
 in a _database.sqlite_ file in the root of the repo. If you want to store data in a postgres database,
 provide `DATABASE_URL` env. variable in the following form: `postgres://<username>:<password>@<host>:<port>/<dbname>`.
 
+### Deployment
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ## Sample data
 
 The jet engine model used in the live demo can be obtained
