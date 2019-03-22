@@ -14,6 +14,7 @@ function initPerformanceTab(mainViewer) {
     const alerts = JSON.parse(localStorage.getItem(ALERTS_STORAGE_KEY) || '{}');
 
     const needle = document.getElementById('gauge-needle');
+    var dbid = 10;  // random number to start with
     /*
     alerts = {
         <partId>: {
@@ -24,7 +25,9 @@ function initPerformanceTab(mainViewer) {
     };
     */
 
-    function updateTemperatures() {
+    function updateTemperatures(chart) {
+        //update part bar chart
+        // chart.data.datasets[0].data = [12, 19, 3, 5, 2, 3].map(i => Math.floor(Math.random() * 100))
         /*
         // Generate new temperatures for each partId from 1 to 1500
         for (let i = 0, len = temperatures.length; i < len; i++) {
@@ -44,8 +47,8 @@ function initPerformanceTab(mainViewer) {
             }
         });
         */
-        // update temperature gauge
-        needle.setAttribute('transform', `rotate(${Math.floor(Math.random() * 20)}, 100, 100)`);
+        // update temperature gauge        
+        needle.setAttribute('transform', `rotate(${dbid+Math.floor(Math.random() * 10)}, 100, 100)`);
     }
 
     function createEngineSpeedChart() {
@@ -185,6 +188,9 @@ function initPerformanceTab(mainViewer) {
     mainViewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, function(ev) {
         const ids = mainViewer.getSelection();
         if (ids.length === 1) {
+            dbid = ids[0];
+            partTemperaturesChart.data.datasets[0].data = [12, 19, 3, 5, 2, 3].map(i => Math.floor(Math.random() * 100))
+            partTemperaturesChart.update();
             $partCurrentTemperature.show();
             $partTemperatureChart.show();
             $partSelectionAlert.hide();
