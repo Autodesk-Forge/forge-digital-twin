@@ -1,0 +1,30 @@
+{
+    "name": "forge-digital-twin",
+    "description": "Autodesk Forge application demonstrating various use cases in manufacturing, specifically in context of digital twins.",
+    "repository": "https://github.com/Autodesk-Forge/forge-digital-twin",
+    "logo": "https://avatars0.githubusercontent.com/u/8017462?v=3&s=200",
+    "keywords": [
+        "autodesk",
+        "forge",
+        "manufacturing",
+        "digital-twin"
+    ],
+    "env": {
+        "FORGE_CLIENT_ID": {
+            "description": "Forge Client ID"
+        },
+        "FORGE_CLIENT_SECRET": {
+            "description": "Forge Client Secret"
+        },
+        "FORGE_MODEL_URN": {
+            "description": "Base64-encoded URN of a model processed with Forge Model Derivative service"
+        }
+    },
+    "website": "https://forge.autodesk.com/",
+    "success_url": "/",
+    "buildpacks": [
+        {
+            "url": "https://github.com/heroku/heroku-buildpack-nodejs.git"
+        }
+    ]
+}

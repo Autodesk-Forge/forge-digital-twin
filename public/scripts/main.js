@@ -1,5 +1,3 @@
-const URN = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Zm9yZ2UtZGlnaXRhbC10d2luL0pldF9FbmdpbmVfTW9kZWwuemlw';
-
 const options = {
 	env: 'AutodeskProduction',
 	getAccessToken: function(callback) {
@@ -17,7 +15,7 @@ let app = null;
 Autodesk.Viewing.Initializer(options, () => {
 	app = new Autodesk.Viewing.ViewingApplication('viewer');
     app.registerViewer(app.k3D, Autodesk.Viewing.Private.GuiViewer3D, { extensions: ['HeatmapExtension', 'IssuesExtension', 'AnimationExtension'] });
-    loadModel(URN);
+    loadModel(DEMO_URN /* set by the server-side template engine */);
 });
 
 function loadModel(urn) {

@@ -1,8 +1,19 @@
-# forge-digital-twin
+# Forge Digital Twin Demo
+
+![Platforms](https://img.shields.io/badge/platform-Windows|MacOS-lightgray.svg)
+![Node.js](https://img.shields.io/badge/node-%3E%3D%2010.0.0-brightgreen.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+
+[![Viewer](https://img.shields.io/badge/Viewer-v6-green.svg)](http://developer.autodesk.com/)
+[![Data-Management](https://img.shields.io/badge/Data%20Management-v1-green.svg)](http://autodesk-forge.github.io)
+[![OSS](https://img.shields.io/badge/OSS-v2-green.svg)](http://autodesk-forge.github.io)
+[![Model-Derivative](https://img.shields.io/badge/Model%20Derivative-v2-green.svg)](http://autodesk-forge.github.io)
+
+![Intermediate](https://img.shields.io/badge/Level-Intermediate-blue.svg)
 
 Autodesk Forge application demonstrating various use cases in manufacturing, specifically in context of digital twins.
 
-![Screenshot](docs/screenshots/2019-02-20.png)
+![Screenshot](thumbnail.png)
 
 ## Live demo
 
@@ -13,14 +24,14 @@ Master branch is deployed to https://forge-digital-twin.herokuapp.com.
 ### Prerequisites
 
 - Node.js v10+
-- Forge app credentials
-  - contact @brozp for credentials used in the demo
+- [Forge](https://forge.autodesk.com) application credentials,
+  and an _urn_ of a model processed with [Model Derivative APIs](https://forge.autodesk.com/en/docs/model-derivative/v2)
 
 ### Setup
 
 - clone this repository
 - install dependencies: `npm install`
-- run server: `FORGE_CLIENT_ID=<client-id> FORGE_CLIENT_SECRET=<client-secret> npm start`
+- run server: `FORGE_CLIENT_ID=<client-id> FORGE_CLIENT_SECRET=<client-secret> FORGE_MODEL_URN=<model-urn> npm start`
 - go to http://localhost:3000
 
 ### Bootstrap theme
@@ -35,17 +46,27 @@ The project uses a custom Bootstrap theme. In order to customize it:
 
 The application uses [sequelize](http://docs.sequelizejs.com/) with support for
 sqlite and postgres dialects. By default, data is stored locally using sqlite,
-in _database.sqlite_. If you want to store data in a postgres database,
+in a _database.sqlite_ file in the root of the repo. If you want to store data in a postgres database,
 provide `DATABASE_URL` env. variable in the following form: `postgres://<username>:<password>@<host>:<port>/<dbname>`.
 
-## Deployment
+### Deployment
 
-> We're loosely following the [gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) workflow.
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-- create a release branch from `develop` for the new version: `git checkout -b release/<major>.<minor>.<patch>`
-- in the release branch, update the major, minor, patch version in _package.json_
-- merge the release branch into `master`: `git checkout master; git merge --no-ff release/<major>.<minor>.<patch>`
-- merge the release branch back to `develop`: `git checkout develop; git merge --no-ff release/<major>.<minor>.<patch>`
-- push the `master`, `develop` branches and the tags back to enterprise git: `git push origin develop master --tags`
-- push the `master` branch to heroku (ask @brozp for credentials): `git push heroku master`
-- go to [releases](https://git.autodesk.com/brozp/forge-digital-twin/releases) and summarize changes in the newly deployed version
+## Sample data
+
+The jet engine model used in the live demo can be obtained
+from https://knowledge.autodesk.com/sites/default/files/file_downloads/Jet_Engine_Model.zip.
+
+## Support
+
+For support, please contact forge.help@autodesk.com.
+
+## License
+
+This sample is licensed under the terms of the [MIT License](https://tldrlegal.com/license/mit-license).
+Please refer to [LICENSE](LICENSE) for more details.
+
+## Written by
+
+Petr Broz [@ipetrbroz](https://twitter.com/ipetrbroz), [Forge](http://forge.autodesk.com) Partner Development Group
