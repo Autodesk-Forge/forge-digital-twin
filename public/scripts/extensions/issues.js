@@ -59,6 +59,8 @@ class IssuesExtension extends Autodesk.Viewing.Extension {
     }
 
     async _createMarkups(partIds) {
+        this._explodeExtension = this.viewer.getExtension('Autodesk.Explode');
+
         const $viewer = $('#viewer');
         $('#viewer label.markup').remove();
         const query = (partIds && partIds.length > 0) ? '?parts=' + partIds.join(',') : '';
@@ -105,9 +107,13 @@ class IssuesExtension extends Autodesk.Viewing.Extension {
     }
 
     _getIssuePosition(issue) {
-        issue.fragment.getAnimTransform();
-        const offset = issue.fragment.position;
-        return new THREE.Vector3(issue.x + offset.x, issue.y + offset.y, issue.z + offset.z);
+        if (this._explodeExtension.isActive()) {
+            issue.fragment.getAnimTransform();
+            const offset = issue.fragment.position;
+            return new THREE.Vector3(issue.x + offset.x, issue.y + offset.y, issue.z + offset.z);
+        } else {
+            return new THREE.Vector3(issue.x, issue.y, issue.z);
+        }
     }
 
     _removeMarkups() {
