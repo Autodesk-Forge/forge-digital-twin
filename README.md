@@ -69,4 +69,4 @@ Please refer to [LICENSE](LICENSE) for more details.
 
 ## Written by
 
-Petr Broz [@ipetrbroz](https://twitter.com/ipetrbroz), [Forge](http://forge.autodesk.com) Partner Development Group
+Petr Broz ([@ipetrbroz](https://twitter.com/ipetrbroz)), Varun Patil, Forge Partner Development Group

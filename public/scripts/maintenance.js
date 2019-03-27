@@ -113,44 +113,57 @@ function initMaintenanceTab(mainViewer) {
         }
     }
 
+    let revisionChart = null;
     function updateRevisionChart(partIds) {
-        const ctx = document.getElementById("revision-stats").getContext('2d');
-        const chart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-                datasets: [{
-                    label: 'Status',
-                    data: [12, 19, 3, 5, 2, 3].map(i => Math.floor(Math.random() * 100)),
-                    backgroundColor: [
-                        'rgba(255, 0, 0, 0.2)',
-                        'rgba(0, 255, 0, 0.2)',
-                        'rgba(255, 0, 0, 0.2)',
-                        'rgba(0, 255, 0, 0.2)',
-                        'rgba(255, 0, 0, 0.2)',
-                        'rgba(0, 255, 0, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 0, 0, 1.0)',
-                        'rgba(0, 255, 0, 1.0)',
-                        'rgba(255, 0, 0, 1.0)',
-                        'rgba(0, 255, 0, 1.0)',
-                        'rgba(255, 0, 0, 1.0)',
-                        'rgba(0, 255, 0, 1.0)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
+        // Generate a set of random "counts of reported issues" with dbId as seed
+        let rng = new RandomNumberGenerator(partIds && partIds.length === 1 ? partIds[0] : undefined);
+        let stats = [];
+        for (let i = 0; i < 6; i++) {
+            stats.push(Math.floor(rng.nextFloat() * 10));
+        }
+
+        if (!revisionChart) {
+            const ctx = document.getElementById("revision-stats").getContext('2d');
+            revisionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+                    datasets: [{
+                        label: 'Issue Count',
+                        data: stats,
+                        backgroundColor: [
+                            'rgba(192, 128, 0, 0.2)',
+                            'rgba(192, 128, 0, 0.2)',
+                            'rgba(192, 128, 0, 0.2)',
+                            'rgba(192, 128, 0, 0.2)',
+                            'rgba(192, 128, 0, 0.2)',
+                            'rgba(192, 128, 0, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(192, 128, 0, 1.0)',
+                            'rgba(192, 128, 0, 1.0)',
+                            'rgba(192, 128, 0, 1.0)',
+                            'rgba(192, 128, 0, 1.0)',
+                            'rgba(192, 128, 0, 1.0)',
+                            'rgba(192, 128, 0, 1.0)'
+                        ],
+                        borderWidth: 1
                     }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            revisionChart.data.datasets[0].data = stats;
+            revisionChart.update();
+        }
     }
 
     function initializeViewerApp() {
@@ -244,6 +257,7 @@ function initMaintenanceTab(mainViewer) {
         const ids = mainViewer.getSelection();
         updateRevisionForm(ids);
         updateIssueForm(ids);
+        updateRevisionChart(ids);
         if (ids.length === 1) {
             // Choose one of the pages in the pdf with some nice diagrams
             const page = [8, 6, 5][ids[0] % 3];

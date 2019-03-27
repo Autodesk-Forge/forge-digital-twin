@@ -18,6 +18,11 @@ class IssuesExtension extends Autodesk.Viewing.Extension {
                 this._updateMarkups();
             }
         });
+        this.viewer.addEventListener(Autodesk.Viewing.EXPLODE_CHANGE_EVENT, () => {
+            if (this._enabled) {
+                this._updateMarkups();
+            }
+        });
         this.viewer.addEventListener(Autodesk.Viewing.ISOLATE_EVENT, () => {
             if (this._enabled) {
                 this._createMarkups(this.viewer.getIsolatedNodes());
@@ -59,12 +64,22 @@ class IssuesExtension extends Autodesk.Viewing.Extension {
         const query = (partIds && partIds.length > 0) ? '?parts=' + partIds.join(',') : '';
         const response = await fetch('/api/maintenance/issues' + query);
         this._issues = await response.json();
+
+        const viewer = this.viewer;
+        const tree = viewer.model.getInstanceTree();
         for (const issue of this._issues) {
+            // Store first fragment of each issue's part
+            tree.enumNodeFragments(issue.partId, function(fragId) {
+                if (!issue.fragment) {
+                    issue.fragment = viewer.impl.getFragmentProxy(viewer.model, fragId);
+                }
+            });
+
             // Randomly assign placeholder image to some issues
             if (Math.random() > 0.5) {
                 issue.img = 'https://placeimg.com/150/100/tech?' + issue.id
             }
-            const pos = this.viewer.worldToClient(new THREE.Vector3(issue.x, issue.y, issue.z));
+            const pos = this.viewer.worldToClient(this._getIssuePosition(issue));
             const $label = $(`
                 <label class="markup" data-id="${issue.id}">
                     <img class="arrow" src="/images/arrow.png" />
@@ -82,11 +97,17 @@ class IssuesExtension extends Autodesk.Viewing.Extension {
         for (const label of $('#viewer label.markup')) {
             const $label = $(label);
             const id = $label.data('id');
-            const item = this._issues.find(issue => issue.id === parseInt(id));
-            const pos = this.viewer.worldToClient(new THREE.Vector3(item.x, item.y, item.z));
+            const issue = this._issues.find(item => item.id === parseInt(id));
+            const pos = this.viewer.worldToClient(this._getIssuePosition(issue));
             $label.css('left', Math.floor(pos.x) + 10 /* arrow image width */ + 'px');
             $label.css('top', Math.floor(pos.y) + 10 /* arrow image height */ + 'px');
         }
+    }
+
+    _getIssuePosition(issue) {
+        issue.fragment.getAnimTransform();
+        const offset = issue.fragment.position;
+        return new THREE.Vector3(issue.x + offset.x, issue.y + offset.y, issue.z + offset.z);
     }
 
     _removeMarkups() {
