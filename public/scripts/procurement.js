@@ -58,34 +58,47 @@ function initProcurementTab(mainViewer) {
         }
     }
 
+    let priceChart = null;
     function updatePurchaseChart(partIds) {
-        const ctx = document.getElementById("purchase-stats").getContext('2d');
-        const chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-                datasets: [{
-                    label: 'Price ($)',
-                    data: [12, 19, 3, 5, 2, 3].map(i => Math.floor(150.0 + Math.random() * 50.0)),
-                    backgroundColor: [
-                        'rgba(192, 128, 0, 0.5)'
-                    ],
-                    borderColor: [
-                        'rgba(192, 128, 0, 1.0)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
+        // Generate a set of random prices with dbId as seed
+        let rng = new RandomNumberGenerator(partIds && partIds.length === 1 ? partIds[0] : undefined);
+        let prices = [];
+        for (let i = 0; i < 6; i++) {
+            prices.push(950.0 + rng.nextFloat() * 100.0);
+        }
+
+        if (!priceChart) {
+            const ctx = document.getElementById("purchase-stats").getContext('2d');
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+                    datasets: [{
+                        label: 'Price ($)',
+                        data: prices,
+                        backgroundColor: [
+                            'rgba(192, 128, 0, 0.5)'
+                        ],
+                        borderColor: [
+                            'rgba(192, 128, 0, 1.0)'
+                        ],
+                        borderWidth: 1
                     }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            priceChart.data.datasets[0].data = prices;
+            priceChart.update();
+        }
     }
 
     $('#purchases').on('click', function(ev) {
@@ -117,6 +130,7 @@ function initProcurementTab(mainViewer) {
     mainViewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, function(ev) {
         const ids = mainViewer.getSelection();
         updatePurchaseForm(ids);
+        updatePurchaseChart(ids);
         if (ids.length === 1) {
             $purchaseStats.show();
             $procurementStatsAlert.hide();

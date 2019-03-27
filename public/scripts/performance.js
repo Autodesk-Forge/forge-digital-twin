@@ -189,7 +189,14 @@ function initPerformanceTab(mainViewer) {
         const ids = mainViewer.getSelection();
         if (ids.length === 1) {
             dbid = ids[0];
-            partTemperaturesChart.data.datasets[0].data = [12, 19, 3, 5, 2, 3].map(i => Math.floor(Math.random() * 100))
+
+            // Generate a set of random temperatures (between 95.0 and 105.0) with dbId as seed
+            let rng = new RandomNumberGenerator(dbid);
+            let temperatures = [];
+            for (let i = 0; i < 6; i++) {
+                temperatures.push(95.0 + rng.nextFloat() * 10.0);
+            }
+            partTemperaturesChart.data.datasets[0].data = temperatures;
             partTemperaturesChart.update();
             $partCurrentTemperature.show();
             $partTemperatureChart.show();
