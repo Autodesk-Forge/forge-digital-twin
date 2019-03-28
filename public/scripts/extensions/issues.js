@@ -61,8 +61,8 @@ class IssuesExtension extends Autodesk.Viewing.Extension {
     async _createMarkups(partIds) {
         this._explodeExtension = this.viewer.getExtension('Autodesk.Explode');
 
-        const $viewer = $('#viewer');
-        $('#viewer label.markup').remove();
+        const $viewer = $('div.adsk-viewing-viewer');
+        $('div.adsk-viewing-viewer label.markup').remove();
         const query = (partIds && partIds.length > 0) ? '?parts=' + partIds.join(',') : '';
         const response = await fetch('/api/maintenance/issues' + query);
         this._issues = await response.json();
@@ -96,7 +96,7 @@ class IssuesExtension extends Autodesk.Viewing.Extension {
     }
 
     _updateMarkups() {
-        for (const label of $('#viewer label.markup')) {
+        for (const label of $('div.adsk-viewing-viewer label.markup')) {
             const $label = $(label);
             const id = $label.data('id');
             const issue = this._issues.find(item => item.id === parseInt(id));
@@ -117,7 +117,7 @@ class IssuesExtension extends Autodesk.Viewing.Extension {
     }
 
     _removeMarkups() {
-        const $viewer = $('#viewer label.markup').remove();
+        const $viewer = $('div.adsk-viewing-viewer label.markup').remove();
     }
 }
 
