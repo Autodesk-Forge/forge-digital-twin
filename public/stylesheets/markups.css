@@ -22,3 +22,9 @@ label.markup img.arrow {
 label.markup img.thumbnail {
     border-radius: 10px;
 }
+
+svg#part-current-temperature {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
