@@ -13,21 +13,16 @@ class IssuesExtension extends Autodesk.Viewing.Extension {
             this.viewer.addEventListener(Autodesk.Viewing.TOOLBAR_CREATED_EVENT, onToolbarCreated);
         }
 
-        this.viewer.addEventListener(Autodesk.Viewing.CAMERA_CHANGE_EVENT, () => {
+        const updateMarkupsCallback = () => {
             if (this._enabled) {
                 this._updateMarkups();
             }
-        });
-        this.viewer.addEventListener(Autodesk.Viewing.EXPLODE_CHANGE_EVENT, () => {
-            if (this._enabled) {
-                this._updateMarkups();
-            }
-        });
-        this.viewer.addEventListener(Autodesk.Viewing.ISOLATE_EVENT, () => {
-            if (this._enabled) {
-                this._createMarkups(this.viewer.getIsolatedNodes());
-            }
-        });
+        };
+        this.viewer.addEventListener(Autodesk.Viewing.CAMERA_CHANGE_EVENT, updateMarkupsCallback);
+        this.viewer.addEventListener(Autodesk.Viewing.EXPLODE_CHANGE_EVENT, updateMarkupsCallback);
+        this.viewer.addEventListener(Autodesk.Viewing.ISOLATE_EVENT, updateMarkupsCallback);
+        this.viewer.addEventListener(Autodesk.Viewing.HIDE_EVENT, updateMarkupsCallback);
+        this.viewer.addEventListener(Autodesk.Viewing.SHOW_EVENT, updateMarkupsCallback);
 
         return true;
     }
@@ -91,11 +86,13 @@ class IssuesExtension extends Autodesk.Viewing.Extension {
             `);
             $label.css('left', Math.floor(pos.x) + 10 /* arrow image width */ + 'px');
             $label.css('top', Math.floor(pos.y) + 10 /* arrow image height */ + 'px');
+            $label.css('display', viewer.isNodeVisible(issue.partId) ? 'block' : 'none');
             $viewer.append($label);
         }
     }
 
     _updateMarkups() {
+        const viewer = this.viewer;
         for (const label of $('div.adsk-viewing-viewer label.markup')) {
             const $label = $(label);
             const id = $label.data('id');
@@ -103,6 +100,7 @@ class IssuesExtension extends Autodesk.Viewing.Extension {
             const pos = this.viewer.worldToClient(this._getIssuePosition(issue));
             $label.css('left', Math.floor(pos.x) + 10 /* arrow image width */ + 'px');
             $label.css('top', Math.floor(pos.y) + 10 /* arrow image height */ + 'px');
+            $label.css('display', viewer.isNodeVisible(issue.partId) ? 'block' : 'none');
         }
     }
 
