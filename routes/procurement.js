@@ -1,43 +1,62 @@
 const express = require('express');
-const Op = require('sequelize').Op;
 const { Purchase } = require('../model/procurement');
 
 let router = express.Router();
 
 const PurchaseTableLimit = 256;
 
-router.get('/purchases', function(req, res) {
-    let query = undefined;
-    if (req.query.parts) {
-        query = {
-            where: {
-                partId: {
-                    [Op.or]: req.query.parts.split(',').map(val => parseInt(val))
-                }
+function countPurchases() {
+    return new Promise(function(resolve, reject) {
+        Purchase.count({}, (err, count) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(count);
             }
+        });
+    });
+}
+
+router.get('/purchases', function(req, res) {
+    let query = {};
+    if (req.query.parts) {
+        query.partId = {
+            $in: req.query.parts.split(',').map(val => parseInt(val))
         };
     }
-    Purchase.findAll(query).then(purchases => res.json(purchases));
+    Purchase.find(query, (err, purchases) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(purchases);
+        }
+    });
 });
 
 router.get('/purchases/:id', function(req, res) {
-    Purchase.find({ where: { id: req.params.id } })
-        .then(purchase => purchase ? res.json(purchase) : res.status(404).end());
+    Purchase.findOne({ id: req.params.id }, function(err, purchase) {
+        if (err) {
+            res.status(500).send(err);
+        } else if (!purchase) {
+            res.status(404).end();
+        } else {
+            res.json(purchase);
+        }
+    });
 });
 
 router.post('/purchases', async function(req, res) {
     const { supplier, price, partId } = req.body;
-    const numPurchases = await Purchase.count();
-    if (numPurchases >= PurchaseTableLimit) {
-        res.status(405).send('Cannot add more purchases.');
-        return;  
-    }
-
     try {
-        const purchase = await Purchase.create({ supplier, price, partId });
+        const numPurchases = await countPurchases();
+        if (numPurchases >= PurchaseTableLimit) {
+            throw new Error('Cannot add more purchases.');
+        }
+
+        const purchase = await Purchase.create({ createdAt: new Date(), supplier, price, partId });
         res.json(purchase);
     } catch(err) {
-        res.status(400).send(err);
+        res.status(500).send(err);
     }
 });
 

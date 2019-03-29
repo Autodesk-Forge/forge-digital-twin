@@ -1,53 +1,91 @@
-const Sequelize = require('sequelize');
-const db = require('./db');
+const mongoose = require('mongoose');
+const validator = require('validator');
 
-const AuthorValidation = {
-    len: [0, 64]
-};
+function validateAuthor(value) {
+    return value.match(/^[a-zA-Z ]{1,64}$/);
+}
 
-const DescriptionValidation = {
-    len: [0, 256]
-};
+function validateDescription(value) {
+    return value.match(/^[a-zA-Z.,?!\s]{1,256}$/);
+}
 
-const ImageUrlValidation = {
-    len: [0, 256]
-};
-
-const StatusValidation = {
-    isIn: [['ok', 'good', 'bad']]
-};
-
-const Part = db.define('part',
-    {
-        id: { type: Sequelize.INTEGER, primaryKey: true },
-        status: { type: Sequelize.STRING, validate: StatusValidation },
-        nextReview: Sequelize.DATE
+const partSchema = new mongoose.Schema({
+    id: {
+        type: Number,
+        required: true
+    },
+    status: {
+        type: String,
+        validate: value => ['ok', 'good', 'bad'].includes(value)
+    },
+    nextReview: {
+        type: Date
     }
-);
+});
 
-const Review = db.define('review',
-    {
-        author: { type: Sequelize.STRING, validate: AuthorValidation },
-        passed: Sequelize.BOOLEAN,
-        description: { type: Sequelize.TEXT, validate: DescriptionValidation }
+const reviewSchema = new mongoose.Schema({
+    createdAt: {
+        type: Date,
+        required: true
+    },
+    author: {
+        type: String,
+        required: true,
+        validate: validateAuthor
+    },
+    passed: {
+        type: Boolean,
+        required: true
+    },
+    description: {
+        type: String,
+        validate: validateDescription
+    },
+    partId: {
+        type: Number,
+        required: true
     }
-);
-Review.belongsTo(Part);
+});
 
-const Issue = db.define('issue',
-    {
-        author: { type: Sequelize.STRING, validate: AuthorValidation },
-        text: { type: Sequelize.TEXT, validate: DescriptionValidation },
-        img: { type: Sequelize.STRING, validate: ImageUrlValidation },
-        x: Sequelize.FLOAT,
-        y: Sequelize.FLOAT,
-        z: Sequelize.FLOAT
+const issueSchema = new mongoose.Schema({
+    createdAt: {
+        type: Date,
+        required: true
+    },
+    author: {
+        type: String,
+        required: true,
+        validate: validateAuthor
+    },
+    text: {
+        type: String,
+        required: true,
+        validate: validateDescription
+    },
+    img: {
+        type: String,
+        validate: value => validator.isURL(value) && value.length < 256
+    },
+    x: {
+        type: Number,
+        required: true
+    },
+    y: {
+        type: Number,
+        required: true
+    },
+    z: {
+        type: Number,
+        required: true
+    },
+    partId: {
+        type: Number,
+        required: true
     }
-);
-Issue.belongsTo(Part);
+});
 
 module.exports = {
-    Part,
-    Review,
-    Issue
+    Part: mongoose.model('Part', partSchema),
+    Review: mongoose.model('Review', reviewSchema),
+    Issue: mongoose.model('Issue', issueSchema)
 };

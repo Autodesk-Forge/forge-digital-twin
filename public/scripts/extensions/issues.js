@@ -74,11 +74,11 @@ class IssuesExtension extends Autodesk.Viewing.Extension {
 
             // Randomly assign placeholder image to some issues
             if (Math.random() > 0.5) {
-                issue.img = 'https://placeimg.com/150/100/tech?' + issue.id
+                issue.img = 'https://placeimg.com/150/100/tech?' + issue._id
             }
             const pos = this.viewer.worldToClient(this._getIssuePosition(issue));
             const $label = $(`
-                <label class="markup" data-id="${issue.id}">
+                <label class="markup" data-id="${issue._id}">
                     <img class="arrow" src="/images/arrow.png" />
                     <a href="#">${issue.author}</a>: ${issue.text}
                     ${issue.img ? `<br><img class="thumbnail" src="${issue.img}" />` : ''}
@@ -96,7 +96,7 @@ class IssuesExtension extends Autodesk.Viewing.Extension {
         for (const label of $('div.adsk-viewing-viewer label.markup')) {
             const $label = $(label);
             const id = $label.data('id');
-            const issue = this._issues.find(item => item.id === parseInt(id));
+            const issue = this._issues.find(item => item._id === id);
             const pos = this.viewer.worldToClient(this._getIssuePosition(issue));
             $label.css('left', Math.floor(pos.x) + 10 /* arrow image width */ + 'px');
             $label.css('top', Math.floor(pos.y) + 10 /* arrow image height */ + 'px');
