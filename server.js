@@ -25,6 +25,6 @@ app.use('/api/procurement', require('./routes/procurement'));
 app.use('/api/maintenance', require('./routes/maintenance'));
 
 const port = process.env.PORT || 3000;
-db.sync().then(() => {
-    app.listen(port, () => { console.log(`Server listening on port ${port}`); });
-});
+db.connect()
+    .then(() => app.listen(port, () => console.log(`Server listening on port ${port}`)))
+    .catch((err) => console.error(err));

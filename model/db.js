@@ -1,3 +1,14 @@
-const Sequelize = require('sequelize');
+const mongoose = require('mongoose');
 
-module.exports = new Sequelize(process.env.DATABASE_URL || 'sqlite:database.sqlite');
+class Database {
+    async connect() {
+        try {
+            await mongoose.connect(process.env.MONGODB_URL);
+            console.log('Database connection successfull.');
+        } catch(err) {
+            console.log('Database connection error:', err);
+        }
+    }
+}
+
+module.exports = new Database();

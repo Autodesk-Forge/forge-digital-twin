@@ -1,17 +1,26 @@
-const Sequelize = require('sequelize');
-const db = require('./db');
+const mongoose = require('mongoose');
+const validator = require('validator');
 
-const Purchase = db.define('purchase',
-    {
-        supplier: Sequelize.STRING,
-        price: Sequelize.FLOAT,
-        partId: Sequelize.INTEGER
+const purchaseSchema = new mongoose.Schema({
+    createdAt: {
+        type: Date,
+        required: true
     },
-    {
-        indexes: [{ fields: ['partId'] }]
+    supplier: {
+        type: String,
+        required: true,
+        validate: value => ['Foo Inc.', 'Bar Ltd.', 'Baz GmbH.'].includes(value)
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    partId: {
+        type: Number,
+        required: true
     }
-);
+});
 
 module.exports = {
-    Purchase
+    Purchase: mongoose.model('Purchase', purchaseSchema)
 };
