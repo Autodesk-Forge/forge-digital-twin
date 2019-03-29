@@ -17,7 +17,7 @@ Autodesk Forge application demonstrating various use cases in manufacturing, spe
 
 ## Live demo
 
-Master branch is deployed to https://forge-digital-twin.herokuapp.com.
+Master branch is deployed to http://forge-digital-twin.autodesk.io.
 
 ## Development
 
