@@ -36,10 +36,21 @@ form#revision-form
   .row
     label.col-sm-2.col-form-label(for='revision-author') Author
     .col-sm-10
-      input#revision-author.form-control(type='text' value='John Doe')
+      select#revision-author.form-control.form-control-sm
+        option Sherbaum Valery
+        option Erenburg Vladimir
+        option John Golley
+        option Wilbert Awdry
+        option Bill Gunston
+        option Klaus Hünecke
+        option Irwin E. Treager
   .form-group
-    label(for='revision-description') Description
-    textarea#revision-description.form-control
+    label(for='revision-description') Recommended
+    select#revision-description.form-control.form-control-sm
+        option Repair
+        option Replace
+        option Discard
+        option Change
   button.btn.btn-primary.btn-block(type='submit') Submit
 #revision-modal.modal.fade(tabindex='-1' role='dialog' aria-hidden='true')
   .modal-dialog

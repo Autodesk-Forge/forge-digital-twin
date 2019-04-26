@@ -63,6 +63,10 @@ function findOrCreatePart(id) {
     });
 }
 
+Array.prototype.contains = function(element){
+    return this.indexOf(element) > -1;
+};
+
 router.get('/revisions', function(req, res) {
     let query = {};
     if (req.query.parts) {
@@ -79,22 +83,31 @@ router.get('/revisions', function(req, res) {
     });
 });
 
+let authors = ['Sherbaum Valery','Erenburg Vladimir','John Golley','Wilbert Awdry','Bill Gunston','Klaus Hünecke','Irwin E. Treager'];
+let types = ['Minor','Major','Urgent','Critical'];
+let recommendations = ['Repair','Replace','Discard','Change']
+let status = [true,false]
+
 router.post('/revisions', async function(req, res) {
     const { partId, author, passed, description } = req.body;
-    try {
-        const numParts = await countParts();
-        const numReviews = await countReviews();
-        if (numParts >= PartTableLimit) {
-            throw new Error('Cannot register more parts.')
-        } else if (numReviews >= ReviewTableLimit) {
-            throw new Error('Cannot register more reviews.')
+    if (authors.contains(author) && status.contains(passed) && recommendations.contains(description)) {        
+        try {
+            const numParts = await countParts();
+            const numReviews = await countReviews();
+            if (numParts >= PartTableLimit) {
+                throw new Error('Cannot register more parts.')
+            } else if (numReviews >= ReviewTableLimit) {
+                throw new Error('Cannot register more reviews.')
+            }
+            
+            await findOrCreatePart(partId);
+            const review = await Review.create({ createdAt: new Date(), partId, author, passed, description });
+            res.json(review);
+        } catch(err) {
+            res.status(500).send(err);
         }
-
-        await findOrCreatePart(partId);
-        const review = await Review.create({ createdAt: new Date(), partId, author, passed, description });
-        res.json(review);
-    } catch(err) {
-        res.status(500).send(err);
+    } else {
+        res.status(400).send({'error':'need to select from given options'});
     }
 });
 
@@ -116,20 +129,24 @@ router.get('/issues', function(req, res) {
 
 router.post('/issues', async function(req, res) {
     const { partId, author, text, img, x, y, z } = req.body;
-    try {
-        const numParts = await countParts();
-        const numIssues = await countIssues();
-        if (numParts >= PartTableLimit) {
-            throw new Error('Cannot register more parts.');
-        } else if (numIssues >= IssueTableLimit) {
-            throw new Error('Cannot register more issues.');
+    if (authors.contains(author) && types.contains(text)) {        
+        try {
+            const numParts = await countParts();
+            const numIssues = await countIssues();
+            if (numParts >= PartTableLimit) {
+                throw new Error('Cannot register more parts.');
+            } else if (numIssues >= IssueTableLimit) {
+                throw new Error('Cannot register more issues.');
+            }
+            
+            await findOrCreatePart(partId);
+            const issue = await Issue.create({ createdAt: new Date, partId, author, text, img, x, y, z });
+            res.json(issue);
+        } catch(err) {
+            res.status(500).send(err);
         }
-
-        await findOrCreatePart(partId);
-        const issue = await Issue.create({ createdAt: new Date, partId, author, text, img, x, y, z });
-        res.json(issue);
-    } catch(err) {
-        res.status(500).send(err);
+    } else {
+        res.status(400).send({'error':'need to select from given options'});
     }
 });
 
