@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
+
+const { validateSupplier } = require('./validation');
 
 const purchaseSchema = new mongoose.Schema({
     createdAt: {
@@ -9,7 +10,7 @@ const purchaseSchema = new mongoose.Schema({
     supplier: {
         type: String,
         required: true,
-        validate: value => ['Foo Inc.', 'Bar Ltd.', 'Baz GmbH.'].includes(value)
+        validate: validateSupplier
     },
     price: {
         type: Number,
