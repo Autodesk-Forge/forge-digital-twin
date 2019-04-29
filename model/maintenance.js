@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-function validateAuthor(value) {
-    return value.match(/^[a-zA-Z ]{1,64}$/);
-}
-
-function validateDescription(value) {
-    return value.match(/^[a-zA-Z.,?!\s]{1,256}$/);
-}
+const {
+    validateAuthor,
+    validatePartStatus,
+    validateIssueDescription,
+    validateRevisionDescription
+} = require('./validation');
 
 const partSchema = new mongoose.Schema({
     id: {
@@ -16,7 +15,7 @@ const partSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        validate: value => ['ok', 'good', 'bad'].includes(value)
+        validate: validatePartStatus
     },
     nextReview: {
         type: Date
@@ -39,7 +38,7 @@ const reviewSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        validate: validateDescription
+        validate: validateRevisionDescription
     },
     partId: {
         type: Number,
@@ -60,7 +59,7 @@ const issueSchema = new mongoose.Schema({
     text: {
         type: String,
         required: true,
-        validate: validateDescription
+        validate: validateIssueDescription
     },
     img: {
         type: String,

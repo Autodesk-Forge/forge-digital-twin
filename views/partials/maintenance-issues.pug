@@ -29,13 +29,24 @@ form#issue-form
     .col-sm-10
       input#issue-part.form-control-plaintext(type='text' readonly='' value='123')
   .row.mb-2
-    label.col-sm-2.col-form-label(for='issue-title') Title
+    label.col-sm-2.col-form-label(for='issue-title') Type
     .col-sm-10
-      input#issue-title.form-control(type='text' value='Issue Title')
+      select#issue-title.form-control.form-control-sm
+        option Minor
+        option Major
+        option Urgent
+        option Critical
   .row.mb-2
     label.col-sm-2.col-form-label(for='issue-author') Author
     .col-sm-10
-      input#issue-author.form-control(type='text' value='John Doe')
+      select#issue-author.form-control.form-control-sm
+        option Sherbaum Valery
+        option Erenburg Vladimir
+        option John Golley
+        option Wilbert Awdry
+        option Bill Gunston
+        option Klaus Hünecke
+        option Irwin E. Treager
   .row.mb-2
     label.col-sm-1.col-form-label(for='issue-position-x') X
     .col-sm-3
