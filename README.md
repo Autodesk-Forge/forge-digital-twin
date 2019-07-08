@@ -74,8 +74,12 @@ The project uses a custom Bootstrap theme. In order to customize it:
 
 ## Sample data
 
-The jet engine model used in the live demo can be obtained
+- The jet engine model used in the live demo can be obtained
 from https://knowledge.autodesk.com/sites/default/files/file_downloads/Jet_Engine_Model.zip.
+
+- Create an archive of the `Workspace` folder and translate the archive into SVF (see tutorial [here](https://forge.autodesk.com/en/docs/model-derivative/v2/tutorials/translate-zip-source-file-to-stl/) and remember to specify the output format as `SVF`)
+
+- Once completed, feed the URN as environment variable and run the sample
 
 ## Support
 
