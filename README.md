@@ -81,6 +81,12 @@ from https://knowledge.autodesk.com/sites/default/files/file_downloads/Jet_Engin
 
 - Once completed, feed the URN as environment variable and run the sample
 
+## Features
+
+- Heatmaps (using the viewer's theming color API)
+- Annotations
+- Animations
+
 ## Support
 
 For support, please contact forge.help@autodesk.com.
