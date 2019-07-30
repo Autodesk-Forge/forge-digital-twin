@@ -9,7 +9,7 @@ function initMaintenanceTab(mainViewer) {
         pageSize: 5,
         currPage: 0
     };
-    let viewerApp = null;
+    let maintenanceViewer = null;
 
     async function updateRevisions(reload, partIds) {
         if (reload) {
@@ -168,19 +168,23 @@ function initMaintenanceTab(mainViewer) {
 
     function initializeViewerApp() {
         const urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Zm9yZ2UtZGlnaXRhbC10d2luL1ZCTDQuZHdn';
-        function onDocumentLoadSuccess() {
-            const viewables = viewerApp.bubble.search({ type: 'geometry' });
-            if (viewables.length > 0) {
-                viewerApp.selectItem(viewables[0].data);
-                viewerApp.getCurrentViewer().setSwapBlackAndWhite(true);
-            }
+        function onDocumentLoadSuccess(doc) {
+            const node = doc.getRoot().getDefaultGeometry();
+            maintenanceViewer.loadDocumentNode(doc, node)
+                .then(function () {
+                    console.log('Viewable loaded: ' + urn);
+                })
+                .catch(function (err) {
+                    console.error('Could not load viewable: ' + err);
+                });
+            maintenanceViewer.setSwapBlackAndWhite(false);
         }
-        function onDocumentLoadFailure() {
-            console.error('Could not load document');
+        function onDocumentLoadFailure(err) {
+            console.error('Could not load document: ' + err);
         }
-        viewerApp = new Autodesk.Viewing.ViewingApplication('viewer2d');
-        viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, { extensions: [] });
-        viewerApp.loadDocument('urn:' + urn, onDocumentLoadSuccess, onDocumentLoadFailure);
+        maintenanceViewer = new Autodesk.Viewing.Private.GuiViewer3D(document.getElementById('viewer2d'));
+        maintenanceViewer.start();
+        Autodesk.Viewing.Document.load('urn:' + urn, onDocumentLoadSuccess, onDocumentLoadFailure);
     }
 
     // Highlight a part in 3D view when its ID is clicked in the revisions table
@@ -237,7 +241,7 @@ function initMaintenanceTab(mainViewer) {
     // When "maintenance" tab is shown, make sure the 2D viewer is initialized
     $('#maintenance-tab').on('shown.bs.tab', function (e) {
         const visible = $('#maintenance-tab').hasClass('active') && $('#maintenance-instructions-tab').hasClass('active');
-        if (!viewerApp && visible && mainViewer.getSelection().length == 1) {
+        if (!maintenanceViewer && visible && mainViewer.getSelection().length == 1) {
             initializeViewerApp();
         }
     });
@@ -245,7 +249,7 @@ function initMaintenanceTab(mainViewer) {
     // When "docs" tab is shown, make sure the 2D viewer is initialized
     $('#maintenance-instructions-tab').on('shown.bs.tab', function (e) {
         const visible = $('#maintenance-tab').hasClass('active') && $('#maintenance-instructions-tab').hasClass('active');
-        if (!viewerApp && visible && mainViewer.getSelection().length == 1) {
+        if (!maintenanceViewer && visible && mainViewer.getSelection().length == 1) {
             initializeViewerApp();
         }
     });
@@ -268,7 +272,7 @@ function initMaintenanceTab(mainViewer) {
 
             // Activate the 2D viewer (but only when it's actually visible)
             const visible = $('#maintenance-tab').hasClass('active') && $('#maintenance-instructions-tab').hasClass('active');
-            if (!viewerApp && visible) {
+            if (!maintenanceViewer && visible) {
                 initializeViewerApp();
             }
             $('#viewer2d').show();

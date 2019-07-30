@@ -10,33 +10,37 @@ const options = {
 	}
 };
 
-let app = null;
+let mainViewer = null;
 
 Autodesk.Viewing.Initializer(options, () => {
-	app = new Autodesk.Viewing.ViewingApplication('viewer');
-    app.registerViewer(app.k3D, Autodesk.Viewing.Private.GuiViewer3D, { extensions: ['HeatmapExtension', 'IssuesExtension', 'AnimationExtension'] });
+    mainViewer = new Autodesk.Viewing.Private.GuiViewer3D(
+        document.getElementById('viewer'),
+        { extensions: ['HeatmapExtension', 'IssuesExtension', 'AnimationExtension'] }
+    );
+    mainViewer.start();
     loadModel(DEMO_URN /* set by the server-side template engine */);
 });
 
 function loadModel(urn) {
     return new Promise(function(resolve, reject) {
-        function onDocumentLoadSuccess() {
-            const viewables = app.bubble.search({ type: 'geometry' });
-            if (viewables.length > 0) {
-                app.selectItem(viewables[0].data, onItemLoadSuccess, onItemLoadFailure);
-            }
+        function onDocumentLoadSuccess(doc) {
+            const node = doc.getRoot().getDefaultGeometry();
+            mainViewer.loadDocumentNode(doc, node)
+                .then(function () {
+                    initPerformanceTab(mainViewer);
+                    initMaintenanceTab(mainViewer);
+                    initProcurementTab(mainViewer);
+                    initViewer(mainViewer);
+                    resolve();
+                })
+                .catch(function (err) {
+                    reject('Could not load viewable: ' + err);
+                });
         }
-        function onDocumentLoadFailure() { reject('could not load document'); }
-        function onItemLoadSuccess() {
-            const viewer = app.getCurrentViewer();
-            initPerformanceTab(viewer);
-            initMaintenanceTab(viewer);
-            initProcurementTab(viewer);
-            initViewer(viewer);
-            resolve();
+        function onDocumentLoadFailure(err) {
+            reject('Could not load document: ' + err);
         }
-        function onItemLoadFailure() { reject('could not load model'); }
-        app.loadDocument('urn:' + urn, onDocumentLoadSuccess, onDocumentLoadFailure);
+        Autodesk.Viewing.Document.load('urn:' + urn, onDocumentLoadSuccess, onDocumentLoadFailure);
     });
 }
 
