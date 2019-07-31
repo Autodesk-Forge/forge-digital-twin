@@ -13,21 +13,16 @@ class HeatmapExtension extends Autodesk.Viewing.Extension {
         this._enabled = false;
         this._intensity = 0.5;
         this._type = HEATMAP_TYPES[0];
-
-        if (this.viewer.toolbar) {
-            this._createUI();
-        } else {
-            const onToolbarCreated = () => {
-                this._createUI();
-                this.viewer.removeEventListener(Autodesk.Viewing.TOOLBAR_CREATED_EVENT, onToolbarCreated);
-            };
-            this.viewer.addEventListener(Autodesk.Viewing.TOOLBAR_CREATED_EVENT, onToolbarCreated);
-        }
         return true;
     }
 
     unload() {
         this.viewer.toolbar.removeControl(this.toolbar);
+        return true;
+    }
+
+    onToolbarCreated() {
+        this._createUI();
     }
 
     _createUI() {

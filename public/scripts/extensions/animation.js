@@ -3,22 +3,16 @@ ANIMATED_PARTS = [1467, 1412];
 class AnimationExtension extends Autodesk.Viewing.Extension {
     load() {
         this._enabled = false;
-
-        if (this.viewer.toolbar) {
-            this._createUI();
-        } else {
-            const onToolbarCreated = () => {
-                this._createUI();
-                this.viewer.removeEventListener(Autodesk.Viewing.TOOLBAR_CREATED_EVENT, onToolbarCreated);
-            };
-            this.viewer.addEventListener(Autodesk.Viewing.TOOLBAR_CREATED_EVENT, onToolbarCreated);
-        }
-
         return true;
     }
 
     unload() {
         this.viewer.toolbar.removeControl(this.toolbar);
+        return true;
+    }
+
+    onToolbarCreated() {
+        this._createUI();
     }
 
     _enableAnimations(ids) {
