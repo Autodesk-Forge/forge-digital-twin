@@ -18,7 +18,7 @@
     "autodesk-forge-tools": "^0.2.0",
     "express": "^4.16.4",
     "helmet": "^3.16.0",
-    "mongoose": "^5.4.20",
+    "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
     "pug": "^2.0.3",
     "validator": "^10.11.0"
