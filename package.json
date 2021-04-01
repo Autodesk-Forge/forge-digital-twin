@@ -20,7 +20,7 @@
     "helmet": "^4.1.0",
     "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
-    "pug": "^2.0.3",
+    "pug": "^3.0.1",
     "validator": "^10.11.0"
   },
   "devDependencies": {
