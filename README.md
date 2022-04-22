@@ -60,14 +60,6 @@ Master branch is deployed to http://forge-digital-twin.autodesk.io.
   ```
 - go to http://localhost:3000
 
-### Bootstrap theme
-
-The project uses a custom Bootstrap theme. In order to customize it:
-
-- modify _tools/bootstrap-theme/custom.scss_
-- run `npm build:client` to update _public/stylesheets/bootstrap.css_
-- commit the new version of the CSS file
-
 ### Deployment
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
