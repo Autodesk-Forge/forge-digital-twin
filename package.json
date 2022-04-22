@@ -20,6 +20,6 @@
     "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
     "pug": "^3.0.1",
-    "validator": "^10.11.0"
+    "validator": "^13.7.0"
   }
 }
